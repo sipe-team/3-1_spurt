@@ -6,6 +6,7 @@ plugins {
 	kotlin("plugin.jpa") apply false
 	id("org.springframework.boot") apply false
 	id("io.spring.dependency-management") apply false
+	id("me.champeau.jmh") apply false
 }
 
 java {
@@ -29,12 +30,14 @@ subprojects {
 	apply(plugin = "org.jetbrains.kotlin.jvm")
 	apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 	apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
+	apply(plugin = "me.champeau.jmh")
 
 	dependencies {
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
+		testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	}
 
 	tasks.getByName("bootJar") {
