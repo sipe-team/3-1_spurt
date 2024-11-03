@@ -61,4 +61,12 @@
 ![모니터링 화면 예시]("./images/img.png")
 https://grafana.com/grafana/dashboards/2587-k6-load-testing-results/
 
+# 지표 수집 방식 
+- Pull
+- Push
+
+둘다 서버 -> 지표 데이터 저장소
+지표 데이터 저장소에서 Pull은 능동적인 느낌 지표 저장소에서 서버에 요청해서 받아감 ex) promethus
+지표 데이터 저장소에서 Push은 수동적인 느낌 주기적으로 서버가 알아서 agent 등으로 넣어줌 ex) influxdb  
+
 
