@@ -1,10 +1,12 @@
 rootProject.name = "spurt"
 
 include(
-    "practice",
-    "practice:benchmark",
     "app",
     "app:case1",
+    "app:picker",
+    "practice",
+    "practice:benchmark",
+    "practice:oom",
     "support",
 )
 
