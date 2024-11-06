@@ -32,7 +32,7 @@ public class CountryClient {
             }
             return objectMapper.readValue(response.string(), typeFactory.constructCollectionType(List.class, ExternalCountryResponse.class));
         } catch (IOException e) {
-            log.error("Error fetching response", e);
+//            log.warn("Error fetching response");
             return List.of();
         }
     }
