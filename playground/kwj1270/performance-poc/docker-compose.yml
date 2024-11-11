@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./infra/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./infra/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    links:
+      - prometheus
+  influxdb:
+    image: influxdb:latest
+    container_name: influx
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin1234

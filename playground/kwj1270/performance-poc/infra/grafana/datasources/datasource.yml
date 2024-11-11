@@ -1,0 +1,18 @@
+apiVersion: 1
+
+deleteDatasources:
+    - name: beme-prometheus
+    - name: beme-influxdb
+
+datasources:
+    - name: beme-prometheus
+      type: prometheus
+      access: proxy
+      url: http://prometheus:9090
+    - name: beme-influxdb
+      type: influxdb
+      access: proxy
+      database: k6
+      user: admin
+      password: admin1234
+      url: http://influxdb:8086
