@@ -75,7 +75,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -173,7 +173,7 @@
       "type": "stat"
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -304,7 +304,7 @@
       "circleBackground": false,
       "colorBackground": false,
       "colorValue": true,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "defaultColor": "rgb(117, 117, 117)",
       "format": "percent",
       "gauge": {
@@ -489,7 +489,7 @@
       "valueName": "total"
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -587,7 +587,7 @@
       "type": "stat"
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -686,7 +686,7 @@
       "type": "stat"
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -814,7 +814,7 @@
       "type": "stat"
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -918,7 +918,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fill": 1,
       "fillGradient": 2,
       "gridPos": {
@@ -1204,7 +1204,7 @@
       }
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1328,7 +1328,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {},
         "overrides": [
@@ -1468,7 +1468,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "unit": "ms"
@@ -1610,7 +1610,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {},
         "overrides": [
@@ -1750,7 +1750,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {},
         "overrides": [
@@ -1890,7 +1890,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {},
         "overrides": [
@@ -2026,7 +2026,7 @@
       }
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -2329,7 +2329,7 @@
       "type": "table"
     },
     {
-      "datasource": "beme-influxdb",
+      "datasource": "spurt-influxdb",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -2436,7 +2436,7 @@
       {
         "allValue": "*",
         "current": {},
-        "datasource": "beme-influxdb",
+        "datasource": "spurt-influxdb",
         "definition": "SHOW TAG VALUES FROM \"http_req_duration\" WITH KEY = \"name\"",
         "description": null,
         "error": null,

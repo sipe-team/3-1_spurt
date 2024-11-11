@@ -1,2 +1,8 @@
-package com.poc.performance.application;public interface CountryClient {
+package com.poc.performance.application;
+
+import com.poc.performance.domain.Countries;
+
+@FunctionalInterface
+public interface CountryClient {
+    Countries countries();
 }

@@ -1,1 +1,23 @@
-spring.application.name=performance-poc
+server:
+  port: 8080
+spring:
+  application:
+    name: performance-poc
+management:
+  server:
+    port: 1${server.port}
+  endpoint:
+    prometheus:
+      enabled: ${MANAGEMENT_ENABLE_PROMETHEUS:true}
+  endpoints:
+    enabled-by-default: ${MANAGEMENT_ENABLE_BY_DEFAULT:false}
+    web:
+      base-path: ${MANAGEMENT_BASE_PATH:/actuator}
+      exposure:
+        exclude:
+        include: ${MANAGEMENT_WEB_INCLUDE:prometheus}
+    jmx:
+      exposure:
+        exclude:
+        include: ${MANAGEMENT_JMX_INCLUDE:prometheus}
+

@@ -1,4 +1,4 @@
-package com.poc.performance;
+package com.poc.performance.infrastructure.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

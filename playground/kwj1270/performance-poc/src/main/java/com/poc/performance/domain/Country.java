@@ -1,4 +1,4 @@
-package com.poc.performance;
+package com.poc.performance.domain;
 
 public record Country(
         Long id,

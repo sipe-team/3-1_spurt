@@ -1,9 +1,8 @@
-package com.poc.performance;
+package com.poc.performance.domain;
 
-public record Country(
-        Long id,
-        String name,
-        String code,
-        String dialCode
+import java.util.List;
+
+public record Countries(
+        List<Country> countries
 ) {
 }

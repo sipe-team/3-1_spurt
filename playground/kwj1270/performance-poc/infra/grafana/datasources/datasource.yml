@@ -1,15 +1,15 @@
 apiVersion: 1
 
 deleteDatasources:
-    - name: beme-prometheus
-    - name: beme-influxdb
+    - name: spurt-prometheus
+    - name: spurt-influxdb
 
 datasources:
-    - name: beme-prometheus
+    - name: spurt-prometheus
       type: prometheus
       access: proxy
       url: http://prometheus:9090
-    - name: beme-influxdb
+    - name: spurt-influxdb
       type: influxdb
       access: proxy
       database: k6
