@@ -1,0 +1,14 @@
+# monitoring setting
+management:
+  metrics:
+    tags:
+      application: sample-apis
+  endpoint:
+    shutdown:
+      enabled: false
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "prometheus"
