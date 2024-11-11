@@ -263,7 +263,7 @@ GC가 자주 발생하더라도 메모리 누수 문제로 인해 Old Generation
 #### Intellij Profiler 결과
 ![improvement_intellij_profiler_result](image/improvement_intellij_profiler_result.png)
 #### 그라파나 모니터링 결과
-![error_load_test_monitoring_result](image/error_load_test_monitoring_result.png)
+![error_load_test_monitoring_result](image/improvement_load_test_monitoring_result.png)
 
 ---
 #### REFERENCE
