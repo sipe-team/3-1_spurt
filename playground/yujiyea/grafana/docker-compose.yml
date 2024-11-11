@@ -1,0 +1,43 @@
+version: '3.8'
+
+networks:
+  k6:
+  grafana:
+  influxdb:
+
+services:
+  influxdb:
+    image: influxdb:1.8.5
+    networks:
+      - k6
+      - grafana
+      - influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+
+  granafa:
+    image: grafana/grafana:latest
+    networks:
+      - grafana
+      - influxdb
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+        - ./grafana:/etc/grafana/provisioning/
+
+  k6:
+    image: grafana/k6:latest
+    networks:
+      - k6
+    ports:
+      - "6565:6565"
+    environment:
+      - K6_OUT=influxdb=http://influxdb:8086/k6
+    volumes:
+      - ../k6-scripts:/scripts
