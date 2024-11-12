@@ -1,0 +1,39 @@
+spring:
+
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://db-service:5432/postgres?currentSchema=library
+    platform: postgres
+    password: postgres
+    hikari:
+      maximumPoolSize: ${POOL_SIZE}
+      minimum-idle: ${POOL_SIZE}
+      poolName: jdbc-pool
+      idleTimeout: 1800000
+
+  jpa:
+    generate-ddl: 'false'
+    database: POSTGRESQL
+    properties:
+      hibernate:
+        default_schema: library
+    show-sql: 'false'
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: '8080'
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: spring-jdbc

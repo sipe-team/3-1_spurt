@@ -1,0 +1,6 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    pool:
+      initial-size: 20
+      max-size: 20

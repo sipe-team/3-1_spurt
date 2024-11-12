@@ -1,0 +1,18 @@
+version: '3.5'
+
+networks:
+  default:
+    external:
+      name: load-testing-network
+
+services:
+
+  k6:
+    container_name: k6
+    image: loadimpact/k6:latest
+    ports:
+      - "6565:6565"
+    environment:
+      - K6_OUT=influxdb=http://influxdb:8086/k6
+    volumes:
+      - ./js:/k6-scripts

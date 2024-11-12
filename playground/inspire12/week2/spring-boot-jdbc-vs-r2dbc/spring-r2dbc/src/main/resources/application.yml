@@ -1,0 +1,29 @@
+spring:
+  r2dbc:
+    username: postgres
+    password: postgres
+    url: r2dbc:postgresql://db-service:5432/postgres
+    properties:
+      schema: library
+    pool:
+      name: r2dbc-pool
+      initial-size: ${POOL_SIZE}
+      max-size: ${POOL_SIZE}
+      max-idle-time: 30m
+
+server:
+  port: '8080'
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: spring-r2dbc
