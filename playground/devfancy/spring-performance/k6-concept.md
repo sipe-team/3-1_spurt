@@ -2,7 +2,7 @@
 
 ### K6 소개
 
-![k6](./img/technology_grafana_k6.png)
+<img src="/assets/img/technology/technology_grafana_k6.png" width="300">
 
 > 장점
 
@@ -171,6 +171,209 @@ default ✓ [======================================] 1 VUs  00m01.6s/10m0s  1/1 
 | `vus`                      | 현재 활성 가상 사용자의 수                                                          |
 | `vus_max`                  | 가능한 최대 가상 사용자 수                                                          |
 
+## Scenarios
+
+> 시나리오에 대한 자세한 설명이 궁금하다면, [23년 2월 Tech 세미나 - 성능 테스트와 K6 도구 소개](https://www.youtube.com/live/MqdQc4vd_ws) 영상에서 50:00부터 보시면 됩니다.
+
+K6는 다양한 테스트 환경을 지원하기 위해 시나리오 라는 개념을 두고 있다.
+
+여기서 시나리오는 VU(가상 사용자)와 iteration schdules(반복 스케줄링)를 세부적으로 구성할 수 있다.
+
+시나리오를 사용하면 다양한 워크로드 혹은 traffic pattern을 부하 테스트에서 모델링 할 수 있다.
+
+시나리오를 사용할 때의 이점은 아래와 같다.
+
+* **더 쉬운 테스트 구성**: 하나의 스크립트에 **여러 시나리오를 선언**할 수 있고, **각각 독립적**으로 다른 JavaScript 함수를 실행할 수 있다.
+
+* **현실적인 트래픽 시뮬레이션**: 각 시나리오는 목적에 맞게 설계된 실행자를 사용하여 고유한 VU 및 반복 스케줄링 패턴을 적용할 수 있다.
+
+* **병렬 또는 순차적 워크 로드(workloads)**: 시나리오는 서로 독립적이기 때문에 병렬로 실행되지만, 각 시나리오의 `startTime` 속성을 신중히 설정하여 순차적으로 실행되는 것처럼 보이게 만들 수도 있다.
+
+* **세부적인 결과 분석**: 각 시나리오에 대해 서로 다른 환경 변수와 메트릭 태그를 설정할 수 있다.
+
+### Configure scenarios
+
+시나리오를 구성하려면 `options` 객체가 `scenarios` 키를 사용한다.
+
+스크립트 내의 각 시나리오 이름은 **고유** 해야 하며, 원하는 이름을 지정할 수 있다.
+
+시나리오 이름은 결과 요약, 태그 등에서 표시된다.
+
+```js
+export const options = {
+  scenarios: {
+    example_scenario: {
+      // name of the executor to use(사용할 실행자의 이름)
+      executor: 'shared-iterations',
+
+      // common scenario configuration(공통 시나리오 구성)
+      startTime: '10s',
+      gracefulStop: '5s',
+      env: { EXAMPLEVAR: 'testing' },
+      tags: { example_tag: 'testing' },
+
+      // executor-specific configuration(실행자별 구성)
+      vus: 10,
+      iterations: 200,
+      maxDuration: '10s',
+    },
+    another_scenario: {
+      /*...*/
+    },
+  },
+};
+```
+
+### Scenario executors
+
+각 k6 시나리오에 대해 VU 워크로드는 실행자가 스케줄링한다.
+
+실행자는 테스트가 얼마나 오래 실행될지, 트래픽이 일정하게 유지될지 아니면, 변화할지를 설정하며,
+
+워크로드가 VU에 의해 모델링될지 또는 arrival rate에 의해 모델링될지를 결정한다.
+
+시나리오 객체는 반드시 `executor` 속성을 **미리 정의된 실행자 이름 중 하나로 설정**해야 한다.
+
+선택한 실행자에 따라 k6가 부하를 모델링하는 방식이 결정된다. 선택 사항은 다음과 같다.
+
+* 반복 횟수 기준
+
+  * `shared-iterations`: VU들 사이에서 반복을 공유한다.
+
+  * `per-vu-iterations`: 각 VU가 설정된 반복을 실행한다.
+
+* VU(가상 사용자) 수 기준
+
+  * `constant-VUs`: 일정한 수의 VU를 보낸다. -> **일반적으로 TPS 측정**할 때 사용하는 executors
+
+  * `ramping-vus`: 설정된 단계에 따라 VU의 수를 점진적으로 증가시킨다.
+
+
+* 반복 속도 기준
+
+  * `constant-arrival-rate`: 반복을 일정한 속도로 시작한다.
+
+  * `ramping-arrival-rate`: 설정된 단계에 따라 반복 속도를 점진적으로 증가시킨다.
+
+각 실행자 객체는 일반적인 시나리오 옵션 외에도 워크 로드에 특화된 추가 옵션을 가진다.
+
+(전체 옵션 목록은 [Executors](https://grafana.com/docs/k6/latest/using-k6/scenarios/executors/) 섹션을 참조하시면 됩니다)
+
+### Scenario options
+
+아래와 같이 시나리오를 구성하면 다양한 부하 테스트를 세부적으로 조정할 수 있다.
+
+| 옵션               | 유형      | 설명                                                                 | 기본값   |
+| ------------------- | --------- | ------------------------------------------------------------------- | -------- |
+| `executor` (필수)   | 문자열    | 고유한 실행자 이름. 가능한 값은 실행자 섹션에서 확인할 수 있다.         | -        |
+| `startTime`         | 문자열    | 테스트 시작 후 이 시나리오가 실행될 시점의 시간 오프셋이다.               | "0s"     |
+| `gracefulStop`      | 문자열    | 반복을 강제 종료하기 전에 완료될 때까지 기다리는 시간이다. 자세한 내용은 "Graceful stop"을 참고하라. | "30s"    |
+| `exec`              | 문자열    | 실행할 내보낸 JS 함수의 이름이다.                                      | "default"|
+| `env`               | 객체      | 이 시나리오에 특정한 환경 변수다.                                      | {}       |
+| `tags`              | 객체      | 이 시나리오에 특정한 태그다.                                           | {}       |
+| `options`           | 객체      | 브라우저 옵션을 포함한 추가 옵션이다.                                  | {}       |
+
+### Constant VUs
+
+여러 실행자 중 성능 테스트 때 **가장 많이 사용하는 `Constant VUs` 에 대해서만 정리**하고자 한다.
+
+* 고정된 수의 VU(가상 사용자)가 지정된 시간 동안 가능한 한 많은 반복을 실행한다.
+
+* 고정된 수의 VU를 사용하므로, 해당 VU가 생성이 되면 일정시간 동안 대상 엔드포인트로 요청을 지속적으로 보내게 된다.
+
+* 이때 응답이 빠르다면 지정된 시간동안 최대한 많은 요청이 수행될 것이며, 응답이 느리다면 요청 수도 작아질 것이다.
+
+#### Options
+
+공통 구성 옵션 외에, 이 실행자는 다음 옵션을 포함한다. (공통 구성 옵션: https://grafana.com/docs/k6/latest/using-k6/scenarios/#options)
+
+| 옵션               | 유형      | 설명                                                  | 기본값 |
+| ------------------ | --------- | ----------------------------------------------------- | ------ |
+| `duration` (필수)  | 문자열    | 전체 시나리오 실행 시간 (gracefulStop 제외)               | -      |
+| `vus`              | 정수      | 동시에 실행할 VU의 수                                   | 1      |
+
+#### When to use
+
+특정 수의 VU가 일정 시간 동안 실행되어야 할 때 이 실행자를 사용한다.
+
+#### Example
+
+이 예제는 10개의 VU가 30초 동안 지속적으로 실행되도록 설정한다.
+
+```js
+import http from 'k6/http';
+import { sleep } from 'k6';
+
+export const options = {
+  discardResponseBodies: true, // 서버의 응답이 오더라도 컨텐츠 내용을 메모리에 저장하지 않고 버릴지 여부, true 인 경우 컨텐츠 body는 저장하지 않고 버린다.
+  scenarios: {
+    contacts: { // contacts는 시나리오 이름
+      executor: 'constant-vus', // 실행기 이름
+      vus: 10, // 생성할 VU 수
+      duration: '30s', // 실행할 시간
+    },
+  },
+};
+
+export default function () {
+  http.get('https://test.k6.io/contacts.php');
+  // 요청 완료 시간과 함께 반복 시간에 영향을 주는 sleep 함수
+  sleep(0.5);
+}
+```
+
+#### Result
+
+아래 그래프는 이 예제 스크립트의 성능을 보여준다.
+
+![](./img/technology_k6_Constant_VUs_Result.png)
+
+* VU의 수는 10개로 고정되어 있으며, 테스트 시작 전에 모두 초기화된다.
+
+* 전체 테스트 지속 시간은 설정된 30초로 고정되어 있다.
+
+* 기본 함수의 각 반복은 대략 515ms, 즉 초당 약 2번 실행된다.
+
+* 최대 처리량(가장 높은 효율)은 초당 약 20번의 반복, 즉 2번 반복 * 10 VU로 예상된다.
+
+* 최대 처리량은 테스트 대부분 동안 도달 및 유지된다.
+
+* 총 반복 횟수는 대략 600번이며, 30초 동안 초당 20번의 반복을 수행한다.
+
+이렇게 설정하면 효율적으로 고정된 수의 VU가 일정 시간 동안 테스트를 수행할 수 있다.
+
+#### Constant VUs vs Constant arrival rate
+
+두 executor의 주요 차이점은 부하 모델링 방식에 있다.
+
+> Constant VUs
+
+* 부하 모델링 방식: **고정된 수의 VU(가상 사용자)** 가 지정된 시간 동안 가능한 한 많은 반복(iteration)을 수행하는 방식이다.
+
+* 특징: 이 실행자는 설정된 VU의 수를 고정한 채로, 각 VU가 최대한 많이 작업을 수행하도록 한다.
+
+  * 반복 횟수는 시스템 성능이나 테스트 논리에 따라 달라질 수 있다.
+
+* 예시: 일정한 수의 사용자가 시스템을 지속적으로 이용할 때 시뮬레이션하기 적합하다.
+
+  * 예를 들어, 10명의 사용자가 30초 동안 지속적으로 작업을 수행하는 시나리오를 테스트할 때 사용한다.
+
+> Constant arrival rate
+
+* 부하 모델링 방식: 지정된 시간 동안 **일정한 속도로 반복(iteration)** 을 시작하는 방식이다. 이 실행자는 열린 모델로 동작하여, 반복의 시작이 시스템 응답과 독립적이다.
+
+* 특징:  반복이 일정한 속도로 시작되며, 시스템의 응답 시간에 관계없이 설정된 반복 속도를 유지한다.
+
+  * 이 과정에서 필요한 VU 수는 변할 수 있으며, 반복 속도를 맞추기 위해 실행자에 의해 조정된다.
+
+  * 예를 들어, 반복 속도가 유지되도록 더 많은 VU를 동적으로 할당할 수 있다.
+
+* 예시: 요청이 일정한 속도로 들어오는 상황을 시뮬레이션할 때 적합하다.
+
+  * 예를 들어, 초당 일정한 수의 요청을 처리하는 API 부하 테스트를 수행할 때 사용한다.
+
+따라서, `Constant VUs`는 고정된 사용자 수를 시뮬레이션할 때 유용하고, `Constant Arrival Rate`는 일정한 요청 속도를 유지하며 부하를 가할 때 적합하다.
+
 ## 궁금한 점들(QA)
 
 > 아래는 [23년 2월 Tech 세미나 - 성능 테스트와 K6 도구 소개](https://www.youtube.com/live/MqdQc4vd_ws) 영상에서 Q&A (1:26 ~) 부분에 대해 정리한 내용입니다.
@@ -213,7 +416,9 @@ github에 stars 갯수를 바탕으로 인기를 확인하면 아래와 같다.
 
 ## Review
 
-* K6에 대한 기본 개념에 대한 설명이 많기 때문에, 이 부분에 대해서는 추가적으로 더 조사해서 정리해봐야겠다.
+* 사실, 해당 [23년 2월 Tech 세미나 - 성능 테스트와 K6 도구 소개](https://www.youtube.com/live/MqdQc4vd_ws) 영상에서 K6에 대해 자세히 알려줬지만, 이 모든 내용을 정리하는 건 효율적이지 못하다고 느꼈다.
+
+* 공식 문서에도 K6에 대한 설명이 많기 때문에, 이 부분에 대해서는 추가적으로 더 조사하고 실습을 하면서 중요한 내용 위주로 정리해 나가려고 한다.
 
 * 추가적으로 메트릭 수집 및 모니터링 도구인 `Prometheus`, 데이터 소스를 시각화할 수 있는 대시보드 도구인 `Grafana` 에 대해서도 공부해서 정리해봐야겠다.
 
@@ -229,6 +434,4 @@ github에 stars 갯수를 바탕으로 인기를 확인하면 아래와 같다.
 
 * [[공식문서] Install k6](https://grafana.com/docs/k6/latest/set-up/install-k6/)
 
-* [[Github] Using K6 - Test life cycle](https://github.com/schooldevops/k6-tutorials/blob/main/UsingK6/06_test_lifecycle.md)
-
-* [[공식문서] Using k6 - Metrics - Built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/#built-in-metrics)
+* [[공식문서] Using K6](https://grafana.com/docs/k6/latest/using-k6/)
