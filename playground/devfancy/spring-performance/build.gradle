@@ -46,6 +46,9 @@ dependencies {
 
 	// h2
 	runtimeOnly 'com.h2database:h2'
+
+	// OkHttp
+	implementation 'com.squareup.okhttp3:okhttp:4.11.0'
 }
 
 tasks.named('test') {
