@@ -1,0 +1,63 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.18'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'org.jetbrains.kotlin.jvm' version '1.6.21' // kotlin (1)
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21' // 상속, 오버라이딩 가능
+	id 'org.jetbrains.kotlin.plugin.allopen' version "1.6.21"
+	id 'org.jetbrains.kotlin.kapt' version '1.6.21'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework:spring-web:5.3.30'
+	implementation 'org.springframework:spring-core:5.3.30'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.2'
+
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8" // kotlin (2)
+	implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21' // kotlin reflection
+	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3' // json - kotlin module 추가
+
+	// h2
+	runtimeOnly 'com.h2database:h2'
+
+	// OkHttp
+	implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// kotlin (3)
+compileKotlin {
+	kotlinOptions {
+		jvmTarget = "11"
+	}
+}
