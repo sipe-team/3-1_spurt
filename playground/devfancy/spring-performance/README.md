@@ -1,53 +1,240 @@
+---
+layout: post
+title: " 부하테스트 - K6 도구 소개 "
+categories: Technology
+author: devFancy
+---
+* content
+  {:toc}
+
+> 아래는 [23년 2월 Tech 세미나 - 성능 테스트와 K6 도구 소개](https://www.youtube.com/live/MqdQc4vd_ws) 영상에서 본 내용을 기반으로 정리한 글입니다.
+
+## K6 공부를 시작한 이유
+
+IT 커뮤니티 동아리인 SIPE에서 "스프링 퍼포먼스 트랙"이라는 주제로 나를 포함한 7명이 모였다.
+
+여러 성능 테스트 도구 중에서 배우고 싶은 도구를 다수결로 선택했을 때 K6가 뽑혔다.
+
+그래서 K6에 대해 공부한 후, 실습 예제를 만들어 성능 테스트를 경험해보고자 한다.
+
 ## K6
 
-## InfluxDB & Grafana Docker-Compose로 실행하기
+### K6 소개
 
-* docker-compose를 사용하면 Grafana와 InfluxDB를 쉽게 설치할 수 있다.
+![k6](![k6](./img/technology_grafana_k6.png)
 
-* docker-compose.yml은 [k6 공식 레포지토리](https://github.com/grafana/k6/blob/master/docker-compose.yml)에서 확인할 수 있다.
+장점
 
-```bash
-$ cd docker
-$ docker-compose up -d influxdb grafana
+* Grafana에서 만든 오픈소스 부하생성 도구
 
-# 위의 명령어를 입력하면 아래와 같이 나온다.
-[+] Running 4/4
- ✔ Network docker_grafana       Created                                                   0.0s 
- ✔ Network docker_k6            Created                                                   0.0s 
- ✔ Container docker-influxdb-1  Started                                                   0.7s 
- ✔ Container docker-grafana-1   Started                                                   2.0s 
+* 쉬운 테스트 수행, 개발자 중심의 성능 테스트 가능
+
+* CLI 툴을 이용하여 개발자 친화적인 API 제공
+
+  > 명령 줄 인터페이스(CLI, Command line interface) 또는 명령어 인터페이스는 텍스트 터미널을 통해 사용자와 컴퓨터가 상호 작용하는 방식을 뜻한다. 즉, 작업 명령은 사용자가 컴퓨터 키보드 등을 통해 문자열의 형태로 입력하며, 컴퓨터로부터의 출력 역시 문자열의 형태로 주어진다. ( - 위키백과 - )
+
+
+* 자바 스크립트 ES6 지원
+
+* 자동화 pipeline 구성 가능
+
+단점
+
+* 브라우저 지원 안됨, CLI 도구
+
+* NodeJS 환경에서 수행 안됨
+
+### 기본 구조(life cycle)
+
+* k6는 여러개의 단계로 실행이 된다.
+
+* 스테이지는 항상 동일한 순서로 실행된다.
+
+```js
+// 1. init code
+
+export function setup() {
+  // 2. setup code
+}
+
+export default function (data) {
+  // 3. VU code
+}
+
+export function teardown(data) {
+  // 4. teardown code
+}
 ```
 
-* 터미널에서 위의 명령어를 입력해서 실행시키면, `http://localhost:3000/` 에서 Grafana 대시보드를 확인할 수 있다.
+1. init 는 스크립트를 초기화 한다. (파일로드, 모듈 임포트, 함수 정의 등)
+2. (선택사항) setup코드는 환경을 준비하고, 데이터를 생성한다.
+3. VU코드는 default 함수에서 수행된다. 실제로 테스트 요청을 보내는 코드가 작성된다. 옵션에 정의한 만큼 반복 동작한다.
+4. (선택사항) teardown 함수는 테스트의 환경을 정리하고, 자원을 릴리즈한다.
 
-![](/img/grafana-dashboard.png)
+### Quick Start
 
-* Grafana는 docker-compose에 의해 시작된 로컬 InfluxDB에서 데이터를 읽도록 구성되어 있다.
-
-* 이제 k6를 실행시켜서 InfluxDB에 데이터를 저장하고 시각화하려면, `/k6-scrips/first_scripts.js` 파일을 아래의 명령어로 실행시킨다.
+> [Install K6](https://grafana.com/docs/k6/latest/set-up/install-k6/)
+>
+> 아래는 Mac OS 기준으로 작성했습니다.
 
 ```bash
-# 현재 위치: docker
-$ docker-compose run k6 run /scripts/first_scripts.js
+brew install k6
 ```
 
-* 위의 명령어를 입력하고 실행하면 k6 스크립트가 실행되고, 결과가 콘솔에 출력된다.
+그런 다음, docker 명령어를 입력한다.
 
-* 그리고 결과 데이터는 InfluxDB에 저장되며, Grafana에서 시각화할 수 있다.
+```bash
+docker pull grafana/k6
+```
 
+Docker Desktop를 통해 Local 에서 `grafana/k6` 이미지가 있는지 확인한다.
+
+![grafana-k6](./img/technology_docker_desktop_grafana_k6.png)
+
+> 아래 부터는 해당 [[깃허브] spring-performance](https://github.com/devFancy/KoJaPlayground/tree/main/spring-performance) 기준으로 작성했습니다.
+
+k6-scripts 폴더에 있는 first_scripts.js 를 아래와 같이 작성한다.
+
+```js
+import http from 'k6/http';
+import { sleep } from 'k6';
+
+export default function () {
+    http.get('https://test.k6.io');
+    sleep(1);
+}
+```
+
+위 테스트 코드는 http://test.k6.io 에 get 요청을 보내고, 1초 쉬게 된다.
+
+그런 다음, 해당 터미널에서 k6를 실행한다. (명령어 실행할 때의 위치: spring-performance/k6-scripts)
+
+```bash
+k6 run first_scripts.js
+```
+
+그러면 아래와 같이 실행 결과가 나온다.
+
+```bash
+$ k6-scripts % k6 run first_scripts.js
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: first_scripts.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 1 max VUs, 10m30s max duration (incl. graceful stop):
+              * default: 1 iterations for each of 1 VUs (maxDuration: 10m0s, gracefulStop: 30s)
+
+
+     data_received..................: 17 kB 11 kB/s
+     data_sent......................: 442 B 273 B/s
+     http_req_blocked...............: avg=427.77ms min=427.77ms med=427.77ms max=427.77ms p(90)=427.77ms p(95)=427.77ms
+     http_req_connecting............: avg=186.9ms  min=186.9ms  med=186.9ms  max=186.9ms  p(90)=186.9ms  p(95)=186.9ms 
+     http_req_duration..............: avg=184.51ms min=184.51ms med=184.51ms max=184.51ms p(90)=184.51ms p(95)=184.51ms
+       { expected_response:true }...: avg=184.51ms min=184.51ms med=184.51ms max=184.51ms p(90)=184.51ms p(95)=184.51ms
+     http_req_failed................: 0.00% 0 out of 1
+     http_req_receiving.............: avg=79µs     min=79µs     med=79µs     max=79µs     p(90)=79µs     p(95)=79µs    
+     http_req_sending...............: avg=402µs    min=402µs    med=402µs    max=402µs    p(90)=402µs    p(95)=402µs   
+     http_req_tls_handshaking.......: avg=191.27ms min=191.27ms med=191.27ms max=191.27ms p(90)=191.27ms p(95)=191.27ms
+     http_req_waiting...............: avg=184.03ms min=184.03ms med=184.03ms max=184.03ms p(90)=184.03ms p(95)=184.03ms
+     http_reqs......................: 1     0.618512/s
+     iteration_duration.............: avg=1.61s    min=1.61s    med=1.61s    max=1.61s    p(90)=1.61s    p(95)=1.61s   
+     iterations.....................: 1     0.618512/s
+     vus............................: 1     min=1      max=1
+     vus_max........................: 1     min=1      max=1
+
+
+running (00m01.6s), 0/1 VUs, 1 complete and 0 interrupted iterations
+default ✓ [======================================] 1 VUs  00m01.6s/10m0s  1/1 iters, 1 per VU
+```
+
+아래는 k6의 실행 결과를 설명하는 표이다. k6는 기본 내장 메트릭과 HTTP 요청 시 생성되는 메트릭으로 구분할 수 있다.
+
+> 자세한 내용은 공식문서의 [Built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/#built-in-metrics) 를 참고하면 된다
+
+| 메트릭                      | 설명                                                              |
+|-----------------------------|------------------------------------------------------------------|
+| `data_received`             | 수신된 데이터의 양              |
+| `data_sent`                 | 전송된 데이터의 양                  |
+| `http_req_blocked`          | 요청을 시작하기 전에 TCP 연결 슬롯을 기다리며 차단된 시간 |
+| `http_req_connecting`       | 원격 호스트에 TCP 연결을 설정하는 데 걸린 시간 |
+| `http_req_duration`         | 요청에 걸린 총 시간 (http_req_sending + http_req_waiting + http_req_receiving의 합)                  |
+| `http_req_failed`           | setResponseCallback에 따라 실패한 요청의 비율                              |
+| `http_req_receiving`        | 원격 호스트로부터 응답 데이터를 받는 데 걸린 시간 |
+| `http_req_sending`          | 원격 호스트에 데이터를 보내는 데 걸린 시간 |
+| `http_req_tls_handshaking`  | 원격 호스트와 TLS 세션을 핸드셰이킹하는 데 걸린 시간 |
+| `http_req_waiting`          | 원격 호스트로부터 응답을 기다리는 데 걸린 시간     |
+| `http_reqs`                 | k6가 생성한 총 HTTP 요청 수                                  |
+| `iteration_duration`        | VU가 JS 스크립트(기본 함수)를 실행한 총 횟수           |
+| `iterations`                | 반복의 총 수 및 초당 반복 수                                        |
+| `vus`                       | 현재 활성 가상 사용자의 수                                        |
+| `vus_max`                   | 가능한 최대 가상 사용자 수                                                |
+
+## 궁금한 점들(QA)
+
+> 아래는 [23년 2월 Tech 세미나 - 성능 테스트와 K6 도구 소개](https://www.youtube.com/live/MqdQc4vd_ws) 영상에서 Q&A (1:26 ~) 부분에 대해 정리한 내용입니다.
+
+* 다른 도구와 비교했을 때 장점 -> UI가 없어서 command로 해야함 -> CI/CD, 테스트 자동화 하기가 편함
+
+    * K6 이용하면 자동화는 편하고, 1대만 설치해도 왠만한 워크로드 돌릴 수 있음
+
+* k6 점유율 -> 3위 (기준: star 갯수)
+
+```markdown
+- 워낙 많은 성능 테스트 도구가 있어서 점유율은 확인하지 못하였음
+- 다만 github에 stars 를 바탕으로 인기를 확인할 수 있을듯
+
+https://testguild.com/load-testing-tools/ 
+
+- JMeter: 6k stars
+- Taurus: 1.7k stars
+- Locust: 15.7k stars
+- nGrinder: 1.3k stars 
+- gatling: 5.1k stars
+- k6: 11.7k stars
+- Tsung: 2.1k stars
+- Siege: 4k stars
+```
+
+* 인프라/네트워크/애플리케이션 측면에서 GUI 기반으로 사용이 간편한지 -> K6는 성능 테스트를 위한 부하 발생기일 뿐,
+  Datadog 이나 Cloudwatch 같은 걸 봐야함. pin point를 활용하면 좋을 것 같음
+
+* Grafana 생태계와 시너지가 기대되는데, 다른 부하테스트 도구들과 비교했을 때 어떤 장점이 있는지, 결과를 시각화할 수 있는지
+  -> K6를 위한 대시보드가 이미 만들어져 있음. 이미 Grafana 생태계에 통합이 되어 있음. 직접 포워드로 작성하는게 문제가 됨
+
+* 사용자 Think Time은 어떤 기준으로 설정하는지? -> 성능 테스트하는 분이 설정만 하는건지, 답은 존재하지 않음
+
+* K6 성능 테스트 도구를 활용하면 좋을 비즈니스 도메인은 어디인지 궁금 -> 어디서나 가리진 않음. 프로토콜에 따라 다를 것 같음
+  이 도구의 장점을 극대화할 수 있는지 -> 로컬에서, EC2 1개에서 가능하나, 워크로드 모델링을 하고, 가설로 잡은 TPS가 나오느냐가 최대로 활용하는 방법
+
+* 이노릭스DB 말고 다른 mysql db를 사용할 수 있는지 -> mysql db를 사용할 수 있는지는 사이트 들어가서 확인해야 함.
+
+* 대규모 사용시 OS 튜닝하면 된다고 하셨는데, k6 구동되는 서버의 메모리,CPU를 최대한 효율적으로 사용하는 구조 -> 맞다. 튜닝해서 하면 최대한 효율적으로 사용할 수 있음
+
+## Review
+
+* K6에 대한 기본 개념에 대한 설명이 많기 때문에, 이 부분에 대해서는 추가적으로 더 조사해서 정리해봐야겠다.
+
+* 추가적으로 메트릭 수집 및 모니터링 도구인 `Prometheus`, 데이터 소스를 시각화할 수 있는 대시보드 도구인 `Grafana` 에 대해서도 공부해서 정리해봐야겠다.
+
+* 중요한 건 실습 예제를 직접 만들어 보면서 K6, Prometheus, Grafana 도구를 사용해야 더 이해가 와닿을 것 같다.
 
 ## Reference
 
-* [[공식문서] Grafana Labs - Install k6](https://grafana.com/docs/k6/latest/set-up/install-k6/)
-
-* [[공식문서] Grafana Labs - Fine-tune OS](https://grafana.com/docs/k6/latest/set-up/fine-tune-os/#fine-tune-os)
-
-* [[공식문서] Grafana Labs - Grafana dashboards](https://grafana.com/docs/k6/latest/results-output/grafana-dashboards/)
-
-* [[공식문서] influxdb](https://docs.influxdata.com/influxdb/v2/)
-
-* [[Github] grafana/k6 - docker-compose.yml](https://github.com/grafana/k6/blob/master/docker-compose.yml)
+* [23년 2월 Tech 세미나 - 성능 테스트와 K6 도구 소개](https://www.youtube.com/live/MqdQc4vd_ws)
 
 * [[Github] K6 도구 소개](https://github.com/schooldevops/k6-tutorials/blob/main/UsingK6/99_K6_Seminar.md)
 
-* [[Velog] Spring Boot로 K6 & Grafana를 활용한 부하테스트 해보기](https://velog.io/@eastperson/Spring-Boot-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-K6-Grafana%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%95%B4%EB%B3%B4%EA%B8%B0)
+* [[공식문서] What is Grafana k6? ](https://grafana.com/oss/k6/)
+
+* [[공식문서] Install k6](https://grafana.com/docs/k6/latest/set-up/install-k6/)
+
+* [[Github] Using K6 - Test life cycle](https://github.com/schooldevops/k6-tutorials/blob/main/UsingK6/06_test_lifecycle.md)
+
+* [[공식문서] Using k6 - Metrics - Built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/#built-in-metrics)
