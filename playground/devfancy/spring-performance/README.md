@@ -21,7 +21,7 @@ IT 커뮤니티 동아리인 SIPE에서 "스프링 퍼포먼스 트랙"이라는
 
 ### K6 소개
 
-![k6](![k6](./img/technology_grafana_k6.png)
+![k6](./img/technology_grafana_k6.png)
 
 장점
 
