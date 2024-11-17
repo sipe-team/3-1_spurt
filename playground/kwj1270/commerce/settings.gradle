@@ -1,0 +1,9 @@
+rootProject.name = 'commerce'
+
+include(
+        "delivery",
+        "order",
+        "product",
+        "query",
+        "refund",
+)
