@@ -15,9 +15,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping(path = "/{orderId}")
-    public OrderDetailsResponse getOrderDetails(@PathVariable Integer orderId) {
+    public OrderDetailsResponse getOrderDetails(@PathVariable Long orderId) {
 
-        return new OrderDetailsResponse(orderService.getOrderDetailsResponse(orderId));
+        return orderService.getOrderDetailsResponse(orderId);
     }
 
 

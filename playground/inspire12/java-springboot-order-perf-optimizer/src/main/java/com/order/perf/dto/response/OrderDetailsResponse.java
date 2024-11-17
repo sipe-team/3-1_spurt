@@ -1,5 +1,6 @@
 package com.order.perf.dto.response;
 
+import com.order.perf.dto.OrderItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +13,9 @@ import java.util.List;
 @Getter
 public class OrderDetailsResponse {
 
-    private final List<OrderDetailItemDto> orderItems;
+    private final List<OrderItemDto> orderItems;
 
-    public OrderDetailsResponse(final List<OrderDetailItemDto> orderItems) {
+    public OrderDetailsResponse(final List<OrderItemDto> orderItems) {
         this.orderItems = orderItems;
     }
 
