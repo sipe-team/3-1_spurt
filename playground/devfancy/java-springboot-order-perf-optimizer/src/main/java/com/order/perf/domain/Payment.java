@@ -1,6 +1,6 @@
 package com.order.perf.domain;
 
-import com.order.perf.common.BaseTime;
+import com.order.perf.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Table(name = "PAYMENTS")
 @Entity
-public class Payment extends BaseTime {
+public class Payment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

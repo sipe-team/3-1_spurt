@@ -1,6 +1,6 @@
 package com.order.perf.domain;
 
-import com.order.perf.common.BaseTime;
+import com.order.perf.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Table(name = "REFUNDS")
 @Entity
-public class Refund extends BaseTime {
+public class Refund extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
