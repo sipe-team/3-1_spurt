@@ -9,9 +9,19 @@ import java.time.LocalDateTime;
 @Getter
 public class OrderItemDto {
 
-    private Long orderId;
+    private final Long orderId;
     private int orderNumber;
-    private OrderStatus orderStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private final OrderStatus orderStatus;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
+
+    public OrderItemDto(final Long orderId, final int orderNumber,
+                        final OrderStatus orderStatus,
+                        final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+        this.orderId = orderId;
+        this.orderNumber = orderNumber;
+        this.orderStatus = orderStatus;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

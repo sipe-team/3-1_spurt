@@ -6,10 +6,21 @@ import lombok.Getter;
 @Getter
 public class DeliveryDetailsDto {
 
-    private String recipientName;
-    private String mobile;
-    private String address;
-    private String zipCode;
-    private String storePassword;
-    private String deliveryMemo;
+    private final String recipientName;
+    private final String mobile;
+    private final String address;
+    private final String zipCode;
+    private final String storePassword;
+    private final String deliveryMemo;
+
+    public DeliveryDetailsDto(final String recipientName, final String mobile,
+                              final String address, final String zipCode,
+                              final String storePassword, final String deliveryMemo) {
+        this.recipientName = recipientName;
+        this.mobile = mobile;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.storePassword = storePassword;
+        this.deliveryMemo = deliveryMemo;
+    }
 }

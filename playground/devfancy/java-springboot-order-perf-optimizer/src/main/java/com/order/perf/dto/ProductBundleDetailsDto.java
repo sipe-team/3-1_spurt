@@ -6,6 +6,11 @@ import lombok.Getter;
 @Getter
 public class ProductBundleDetailsDto {
 
-    private String bundleName;
-    private int bundleQuantity;
+    private final String bundleName;
+    private final int bundleQuantity;
+
+    public ProductBundleDetailsDto(final String bundleName, final int bundleQuantity) {
+        this.bundleName = bundleName;
+        this.bundleQuantity = bundleQuantity;
+    }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 public class OrderDetailsResponse {
 
-    private List<OrderItemDto> orderItems;
+    private final List<OrderItemDto> orderItems;
 
     public OrderDetailsResponse(final List<OrderItemDto> orderItems) {
         this.orderItems = orderItems;
