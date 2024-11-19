@@ -1,6 +1,7 @@
 package team.sipe.commerce.order.refund.domain;
 
 public class Refund {
+
     private final Long refundId;
     private final RefundProducts refundProducts;
     private final RefundMethod refundMethod;

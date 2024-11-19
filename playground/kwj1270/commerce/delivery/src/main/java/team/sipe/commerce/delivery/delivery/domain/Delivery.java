@@ -1,4 +1,4 @@
-package team.sipe.commerce.delivery.domain;
+package team.sipe.commerce.delivery.delivery.domain;
 
 public class Delivery {
     private String id;
