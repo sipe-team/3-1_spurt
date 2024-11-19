@@ -1,9 +1,7 @@
 package com.order.perf.service;
 
-import com.order.perf.domain.Delivery;
 import com.order.perf.domain.Order;
 import com.order.perf.domain.OrderProduct;
-import com.order.perf.domain.Refund;
 import com.order.perf.dto.DeliveryResponse;
 import com.order.perf.dto.OrderDetailResponse;
 import com.order.perf.dto.OrderResponse;
@@ -15,7 +13,7 @@ import com.order.perf.repository.OrderRepository;
 import com.order.perf.repository.ProductRepository;
 import com.order.perf.repository.RefundRepository;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +30,18 @@ public class OrderService {
   private final RefundRepository refundRepository;
 
   public OrderDetailResponse findOrderDetail(Long orderId) {
+    CompletableFuture<OrderResponse> orderFuture = CompletableFuture.supplyAsync(() -> findOrder(orderId));
+    CompletableFuture<List<ProductResponse>> productsFuture = CompletableFuture.supplyAsync(() -> findProducts(orderId));
+    CompletableFuture<DeliveryResponse> deliveryFuture = CompletableFuture.supplyAsync(() -> findDelivery(orderId));
+    CompletableFuture<RefundResponse> refundFuture = CompletableFuture.supplyAsync(() -> findRefund(orderId));
+
+    CompletableFuture.allOf(orderFuture, productsFuture, deliveryFuture, refundFuture).join();
 
     return new OrderDetailResponse(
-        findOrder(orderId),
-        findProducts(orderId),
-        findDelivery(orderId),
-        findRefund(orderId)
+        orderFuture.join(),
+        productsFuture.join(),
+        deliveryFuture.join(),
+        refundFuture.join()
     );
   }
 
@@ -72,33 +76,25 @@ public class OrderService {
   }
 
   private DeliveryResponse findDelivery(Long orderId) {
-    Optional<Delivery> optionalDelivery = deliveryRepository.findByOrderId(orderId);
-    if (optionalDelivery.isEmpty()) {
-      return null;
-    }
-
-    Delivery delivery = optionalDelivery.get();
-    return new DeliveryResponse(
-        delivery.getRecipientName(),
-        delivery.getMobile(),
-        delivery.getAddress(),
-        delivery.getZipCode(),
-        delivery.getStorePassword(),
-        delivery.getDeliveryMomo()
-    );
+    return deliveryRepository.findByOrderId(orderId)
+        .map(delivery -> new DeliveryResponse(
+            delivery.getRecipientName(),
+            delivery.getMobile(),
+            delivery.getAddress(),
+            delivery.getZipCode(),
+            delivery.getStorePassword(),
+            delivery.getDeliveryMomo()
+        ))
+        .orElse(null);
   }
 
   private RefundResponse findRefund(Long orderId) {
-    Optional<Refund> optionalRefund = refundRepository.findByOrderId(orderId);
-    if (optionalRefund.isEmpty()) {
-      return null;
-    }
-
-    Refund refund = optionalRefund.get();
-    return new RefundResponse(
-        refund.getRefundMethodName(),
-        refund.getRefundAmount(),
-        refund.getRefundStatus()
-    );
+    return refundRepository.findByOrderId(orderId)
+        .map(refund -> new RefundResponse(
+            refund.getRefundMethodName(),
+            refund.getRefundAmount(),
+            refund.getRefundStatus()
+        ))
+        .orElse(null);
   }
 }
