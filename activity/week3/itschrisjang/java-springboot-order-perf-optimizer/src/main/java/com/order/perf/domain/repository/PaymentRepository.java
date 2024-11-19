@@ -1,7 +1,7 @@
 package com.order.perf.domain.repository;
 
 import com.order.perf.domain.Payment;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface PaymentRepository extends JpaRepository<Payment, Long> {
+public interface PaymentRepository extends ReactiveCrudRepository<Payment, Long> {
 }

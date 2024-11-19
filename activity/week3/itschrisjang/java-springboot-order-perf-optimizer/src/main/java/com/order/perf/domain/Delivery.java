@@ -1,42 +1,45 @@
 package com.order.perf.domain;
 
-import com.order.perf.common.BaseEntity;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
-@Table(name = "DELIVERYS")
-@Entity
-public class Delivery extends BaseEntity {
+@Table("deliveries")
+public class Delivery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "delivery_id", nullable = false)
+    @Column("delivery_id")
     private Long id;
 
-    @Column(name = "recipient_name", nullable = false)
+    @Column("recipient_name")
     private String recipientName; // 받으실 분
 
-    @Column(name = "mobile", nullable = false)
+    @Column("mobile")
     private String mobile; // 연락처
 
-    @Column(name = "address", nullable = false)
+    @Column("address")
     private String address; // 배송 주소
 
-    @Column(name = "zip_code", nullable = false)
+    @Column("zip_code")
     private String zipCode; // 우편 번호
 
-    @Column(name = "store_password", nullable = false)
+    @Column("store_password")
     private String storePassword; // 가게 비밀 번호
 
-    @Column(name = "delivery_memo", nullable = false)
+    @Column("delivery_memo")
     private String deliveryMemo; // 배송 메모
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     protected Delivery() {
     }

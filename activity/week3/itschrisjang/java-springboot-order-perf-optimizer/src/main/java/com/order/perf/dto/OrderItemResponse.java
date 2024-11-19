@@ -32,7 +32,7 @@ public class OrderItemResponse {
         return OrderItemResponse.builder()
                 .orderId(order.getId())
                 .orderNumber(order.getOrderNumber())
-                .orderStatus(order.getOrderStatus())
+                .orderStatus(OrderStatus.valueOf(order.getOrderStatus()))
                 .createdAt(order.getCreatedAt())
                 .updatedAt(order.getUpdatedAt())
                 .build();

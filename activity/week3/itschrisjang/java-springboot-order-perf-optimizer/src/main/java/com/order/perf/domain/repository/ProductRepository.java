@@ -1,12 +1,11 @@
 package com.order.perf.domain.repository;
 
-import com.order.perf.domain.Order;
 import com.order.perf.domain.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
+public interface ProductRepository extends ReactiveCrudRepository<Product, Long> {
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+    Flux<Product> findAllById(Long orderId);
 
-    List<Product> findByOrder(final Order order);
 }

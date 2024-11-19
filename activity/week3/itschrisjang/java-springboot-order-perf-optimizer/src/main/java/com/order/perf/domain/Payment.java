@@ -1,25 +1,36 @@
 package com.order.perf.domain;
 
-import com.order.perf.common.BaseEntity;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
-@Table(name = "PAYMENTS")
-@Entity
-public class Payment extends BaseEntity {
+@Table("payments")
+public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column("payment_id")
     private Long id;
-    private String paymentMethod; // 결제 수단 ex) BILLING_NAVER_PAY
-    private String paymentMethodName; // 결제 수단 이름 ex) 네이버
+
+    @Column("payment_method")
+    private String paymentMethod; // 결제 수단
+
+    @Column("payment_method_name")
+    private String paymentMethodName; // 결제 수단 이름
+
+    @Column("payment_amount")
     private int paymentAmount; // 총 결제 금액
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     protected Payment() {
     }

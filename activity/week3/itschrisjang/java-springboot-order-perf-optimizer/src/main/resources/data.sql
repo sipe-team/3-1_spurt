@@ -41,7 +41,7 @@ VALUES
 (10, 'BILLING_NAVER_PAY', '네이버', 5600, NOW(), NOW());
 
 -- 배송 데이터 삽입
-INSERT INTO DELIVERYS (delivery_id, recipient_name, mobile, address, zip_code, store_password, delivery_memo, created_at, updated_at)
+INSERT INTO DELIVERIES (delivery_id, recipient_name, mobile, address, zip_code, store_password, delivery_memo, created_at, updated_at)
 VALUES
     (1, '팬시', '010-1234-5678', '서울특별시 강남구', '13579', 'qwer1234', '문 앞에 놔주세요', NOW(), NOW()),
 (2, '민지', '010-1111-2222', '서울특별시 송파구', '54321', 'asdf5678', '경비실에 맡겨주세요', NOW(), NOW()),

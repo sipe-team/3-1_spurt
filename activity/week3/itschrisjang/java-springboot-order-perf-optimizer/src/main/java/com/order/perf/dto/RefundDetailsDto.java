@@ -26,7 +26,7 @@ public class RefundDetailsDto {
 
     public static RefundDetailsDto from(final Refund refund) {
         return RefundDetailsDto.builder()
-                .refundMethodName(refund.getRefundMethodName())
+                .refundMethodName(RefundMethodName.fromString(refund.getRefundMethodName()))
                 .refundAmount(refund.getRefundAmount())
                 .refundStatus(RefundStatus.PENDING)
                 .build();

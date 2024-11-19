@@ -20,12 +20,19 @@ repositories {
 
 dependencies {
 
-	// spring boot
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+//	 spring boot
+//	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// Spring WebFlux 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.90.Final:osx-aarch_64'
+
+	// Spring Data R2DBC 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
@@ -35,8 +42,10 @@ dependencies {
 
 	// Spring Boot Starter Data Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
 	implementation 'org.apache.commons:commons-pool2:2.11.1'
-	implementation 'io.lettuce.core:lettuce-core' // Lettuce 클라이언트
+	implementation 'io.lettuce:lettuce-core:6.1.8.RELEASE' // 버전 추가
 
 	// Optional: Spring Boot Starter Validation (Redis 캐시에서 validation 적용 시 사용)
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -50,13 +59,16 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// h2
-	runtimeOnly 'com.h2database:h2'
+	implementation 'com.h2database:h2'
+	implementation 'io.r2dbc:r2dbc-h2'
 
 	// mysql
-	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+//	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+def void exclude(LinkedHashMap<String, String> stringStringLinkedHashMap) {}

@@ -1,55 +1,55 @@
 package com.order.perf.domain;
 
-import com.order.perf.common.BaseEntity;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
-@Table(name = "PRODUCTS")
-@Entity
-public class Product extends BaseEntity {
+@Table("products")
+public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id", nullable = false)
+    @Column("product_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column("order_id")
+    private Long orderId; // Order의 ID를 직접 저장
 
-    @Column(name = "product_name", nullable = false)
+    @Column("product_name")
     private String productName; // 상품 이름
 
-    @Column(name = "description", nullable = false)
+    @Column("description")
     private String description; // 상품 설명
 
-    @Column(name = "price", nullable = false)
+    @Column("price")
     private int price; // 상품 가격
 
-    @Column(name = "bundle_name", nullable = false)
-    private String bundleName;   // 상품 묶음 이름 (예: 크리스마스 선물 세트)
+    @Column("bundle_name")
+    private String bundleName;   // 상품 묶음 이름
 
-    @Column(name = "bundle_quantity", nullable = false)
-    private int bundleQuantity;  // 해당 묶음에 포함된 상품의 수량
+    @Column("bundle_quantity")
+    private int bundleQuantity;  // 묶음 수량
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
     protected Product() {
     }
 
     public Product(
-            final Order order,
+            final Long orderId,
             final String productName, final String description,
             final int price,
             final String bundleName, final int bundleQuantity) {
-        this.order = order;
+        this.orderId = orderId;
         this.productName = productName;
         this.description = description;
         this.price = price;

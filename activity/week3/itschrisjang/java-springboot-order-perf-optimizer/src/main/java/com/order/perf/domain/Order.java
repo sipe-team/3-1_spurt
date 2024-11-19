@@ -1,39 +1,42 @@
 package com.order.perf.domain;
 
-import com.order.perf.common.BaseEntity;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
-@Table(name = "ORDERS")
-@Entity
-public class Order extends BaseEntity {
+@Table("orders")
+public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id", nullable = false)
+    @Column("order_id")
     private Long id;
 
+    @Column("delivery_id")
     private Long deliveryId;
+
+    @Column("refund_id")
     private Long refundId;
+
+    @Column("payment_id")
     private Long paymentId;
 
-    @Column(name = "order_number", nullable = false)
+    @Column("order_number")
     private int orderNumber; // 주문 번호
 
-    @Column(name = "order_status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus; // 주문 상태
+    @Column("order_status")
+    private String orderStatus; // 주문 상태 (Enum의 이름을 문자열로 저장)
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     protected Order() {
     }
@@ -46,6 +49,6 @@ public class Order extends BaseEntity {
         this.refundId = refundId;
         this.paymentId = paymentId;
         this.orderNumber = orderNumber;
-        this.orderStatus = orderStatus;
+        this.orderStatus = orderStatus.name(); // Enum의 이름을 문자열로 저장
     }
 }
