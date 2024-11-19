@@ -1,9 +1,8 @@
 rootProject.name = 'commerce'
 
 include(
+        "display",
         "delivery",
         "order",
-        "product",
-        "query",
-        "refund",
+        "shop"
 )
