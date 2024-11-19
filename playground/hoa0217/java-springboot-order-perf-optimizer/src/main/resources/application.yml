@@ -4,6 +4,9 @@ spring:
     username: 'user'
     password: ''
     driver-class-name: org.h2.Driver
+    hikari:
+      minimum-idle: 40              # 유지할 최소 커넥션 수
+      maximum-pool-size: 400         # 최대 커넥션 수
   jpa:
     hibernate:
       ddl-auto: none
