@@ -54,6 +54,8 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+    enable:
+      all: true
 logging:
   level:
 #    org.springframework.data.redis: DEBUG

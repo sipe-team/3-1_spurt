@@ -67,7 +67,7 @@ public class RedisConfig {
     @Bean
     public org.springframework.data.redis.cache.RedisCacheConfiguration redisCacheConfiguration() {
         return org.springframework.data.redis.cache.RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(30)) // 캐시 만료 시간: 30초
+                .entryTtl(Duration.ofMinutes(2)) // 캐시 만료 시간: 120초
                 .serializeValuesWith(org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair
                         .fromSerializer(new GenericJackson2JsonRedisSerializer()));
     }
