@@ -18,4 +18,9 @@ public class OrderController {
   public ResponseEntity<OrderDetailResponse> findOrderDetail(@PathVariable Long orderId) {
     return ResponseEntity.ok(orderService.findOrderDetail(orderId));
   }
+
+  @GetMapping("api/v1/order/async/{orderId}")
+  public ResponseEntity<OrderDetailResponse> findOrderDetailAsync(@PathVariable Long orderId) {
+    return ResponseEntity.ok(orderService.findOrderDetailAsync(orderId));
+  }
 }

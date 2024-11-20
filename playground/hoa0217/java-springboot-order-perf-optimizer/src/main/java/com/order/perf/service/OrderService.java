@@ -30,6 +30,20 @@ public class OrderService {
   private final RefundRepository refundRepository;
 
   public OrderDetailResponse findOrderDetail(Long orderId) {
+    OrderResponse order = findOrder(orderId);
+    List<ProductResponse> products = findProducts(orderId);
+    DeliveryResponse delivery = findDelivery(orderId);
+    RefundResponse refund = findRefund(orderId);
+
+    return new OrderDetailResponse(
+        order,
+        products,
+        delivery,
+        refund
+    );
+  }
+
+  public OrderDetailResponse findOrderDetailAsync(Long orderId) {
     CompletableFuture<OrderResponse> orderFuture = CompletableFuture.supplyAsync(() -> findOrder(orderId));
     CompletableFuture<List<ProductResponse>> productsFuture = CompletableFuture.supplyAsync(() -> findProducts(orderId));
     CompletableFuture<DeliveryResponse> deliveryFuture = CompletableFuture.supplyAsync(() -> findDelivery(orderId));
