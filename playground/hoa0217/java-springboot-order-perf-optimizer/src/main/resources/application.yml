@@ -1,4 +1,7 @@
 spring:
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
   datasource:
     url: 'jdbc:h2:mem:order-perf-optimizer'
     username: 'user'

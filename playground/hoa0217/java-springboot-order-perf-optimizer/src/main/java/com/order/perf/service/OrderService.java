@@ -15,6 +15,7 @@ import com.order.perf.repository.RefundRepository;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class OrderService {
   private final DeliveryRepository deliveryRepository;
   private final RefundRepository refundRepository;
 
+  @Cacheable(value = "orderCache", key = "#orderId")
   public OrderDetailResponse findOrderDetail(Long orderId) {
     OrderResponse order = findOrder(orderId);
     List<ProductResponse> products = findProducts(orderId);
@@ -74,7 +76,6 @@ public class OrderService {
 
   private List<ProductResponse> findProducts(Long orderId) {
     List<OrderProduct> orderProducts = orderProductRepository.findByOrderId(orderId);
-
     return orderProducts.stream()
         .map(orderProduct -> productRepository.findById(orderProduct.getProductId())
             .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다.")))
