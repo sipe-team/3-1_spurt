@@ -1,0 +1,13 @@
+spring:
+
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=library
+    platform: postgres
+    password: postgres
+    hikari:
+      maximumPoolSize: 20
+      minimum-idle: 20
+
+server:
+  port: '8081'
