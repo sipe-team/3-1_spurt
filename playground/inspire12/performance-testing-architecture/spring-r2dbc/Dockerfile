@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:x86_64-alpine-jdk-11.0.5_10-slim as builder
+FROM adoptopenjdk/openjdk11:x86_64-alpine-jdk-11.0.5_10-slim AS builder
 
 WORKDIR /src
 COPY src ./src/
