@@ -5,12 +5,9 @@ import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -22,10 +19,6 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", nullable = false)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     @Column(name = "product_name", nullable = false)
     private String productName; // 상품 이름
@@ -45,11 +38,9 @@ public class Product extends BaseEntity {
     }
 
     public Product(
-            final Order order,
             final String productName, final String description,
             final int price,
             final String bundleName, final int bundleQuantity) {
-        this.order = order;
         this.productName = productName;
         this.description = description;
         this.price = price;

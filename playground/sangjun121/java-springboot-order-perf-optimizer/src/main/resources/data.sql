@@ -3,8 +3,12 @@ INSERT INTO ORDERS (order_id, delivery_id, refund_id, payment_id, order_number, 
 VALUES (1, 1, 1, 1, 12345, 'CONFIRMED', NOW(), NOW());
 
 -- 상품 데이터 삽입 (order_id 포함)
-INSERT INTO PRODUCTS (product_id, order_id, product_name, description, price, bundle_name, bundle_quantity, created_at, updated_at)
-VALUES (1, 1, '베스트코 왕교자만두 1.4kg', '쫄깃한 만두피와 씹는 맛이 살도록 굵게 썰어낸 속재료가 만난 환상적인 식감', 7500, '크리스마스 선물 세트', 10, NOW(), NOW());
+INSERT INTO PRODUCTS (product_id, product_name, description, price, bundle_name, bundle_quantity, created_at, updated_at)
+VALUES (1, '베스트코 왕교자만두 1.4kg', '쫄깃한 만두피와 씹는 맛이 살도록 굵게 썰어낸 속재료가 만난 환상적인 식감', 7500, '크리스마스 선물 세트', 10, NOW(), NOW());
+
+-- 주문 상품 데이터 삽입
+INSERT INTO ORDER_PRODUCTS (order_product_id, order_id, product_id, count, created_at, updated_at)
+VALUES (1, 1, 1, 1, NOW(), NOW());
 
 -- 결제 데이터 삽입
 INSERT INTO PAYMENTS (id, payment_method, payment_method_name, payment_amount, created_at, updated_at)
