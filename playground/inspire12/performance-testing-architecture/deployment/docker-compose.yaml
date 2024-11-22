@@ -48,7 +48,7 @@ services:
       replicas: 1
 
   influxdb:
-    container_name: influxdb
+    container_name: influxdb-performance
     image: influxdb:1.8.9
     ports:
       - "8086:8086"
@@ -56,7 +56,7 @@ services:
       - INFLUXDB_DB=k6
 
   grafana:
-    container_name: grafana
+    container_name: grafana-performance
     image: grafana/grafana:latest
     ports:
       - "3000:3000"

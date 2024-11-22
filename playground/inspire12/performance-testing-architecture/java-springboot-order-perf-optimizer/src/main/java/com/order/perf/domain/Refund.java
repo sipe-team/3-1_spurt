@@ -19,7 +19,6 @@ public class Refund extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "refund_id", nullable = false)
     private Long id;
 

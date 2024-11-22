@@ -1,9 +1,7 @@
 package com.order.perf.domain;
 
 import com.order.perf.common.BaseEntity;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,8 +22,11 @@ public class Order extends BaseEntity {
     @Column(name = "order_id", nullable = false)
     private Long id;
 
+    @Column(name = "delivery_id")
     private Long deliveryId;
+    @Column(name = "refund_id")
     private Long refundId;
+    @Column(name = "payment_id")
     private Long paymentId;
 
     @Column(name = "order_number", nullable = false)
