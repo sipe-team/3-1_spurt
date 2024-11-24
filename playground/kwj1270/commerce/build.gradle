@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group = 'team.sipe'
+version = '0.0.1-SNAPSHOT'
+
+allprojects {
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(23)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
