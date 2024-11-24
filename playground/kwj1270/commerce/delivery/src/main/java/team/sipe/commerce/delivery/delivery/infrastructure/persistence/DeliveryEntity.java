@@ -10,7 +10,7 @@ public class DeliveryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "order_id", nullable = false)
     private String orderId;
@@ -36,7 +36,7 @@ public class DeliveryEntity {
     public DeliveryEntity() {
     }
 
-    public DeliveryEntity(final String id, final String orderId, final String recipientName,
+    public DeliveryEntity(final Long id, final String orderId, final String recipientName,
                           final String mobile, final String deliveryMemo, final String address,
                           final String zipCode, final String deliveryStatus) {
         this.id = id;

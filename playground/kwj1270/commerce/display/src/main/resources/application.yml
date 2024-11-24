@@ -1,3 +1,6 @@
+server:
+  port: 12290
 spring:
   application:
     name: display
+
