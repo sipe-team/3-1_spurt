@@ -9,4 +9,10 @@ public class OrderLineItems {
     public OrderLineItems(final List<OrderLineItem> orderLineItems) {
         this.orderLineItems = orderLineItems;
     }
+
+    public Price totalPrice() {
+        return orderLineItems.stream()
+                .map(it -> it.calculatePrice())
+                .reduce(Price.init(), Price::plus);
+    }
 }

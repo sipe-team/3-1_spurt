@@ -1,7 +1,6 @@
 rootProject.name = 'commerce'
 
 include(
-        "display",
         "delivery",
         "order",
         "shop"

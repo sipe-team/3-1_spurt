@@ -1,0 +1,21 @@
+server:
+  port: 8081
+  shutdown: graceful
+spring:
+  application:
+    name: order
+  profiles:
+    active: local
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/order
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    defer-datasource-initialization: false

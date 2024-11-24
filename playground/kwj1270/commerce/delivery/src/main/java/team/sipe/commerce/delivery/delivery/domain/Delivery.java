@@ -9,4 +9,3 @@ public class Delivery {
     private DeliveryAddress deliveryAddress;
     private DeliveryStatus deliveryStatus;
 }
-
