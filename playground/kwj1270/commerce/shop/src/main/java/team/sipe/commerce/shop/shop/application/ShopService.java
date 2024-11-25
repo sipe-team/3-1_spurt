@@ -30,7 +30,7 @@ public class ShopService implements ShopRegisterUseCase {
                 shopRegisterCommand.shopDescription(),
                 shopRegisterCommand.shopAddress(),
                 LocalDateTime.now(),
-                null
+                LocalDateTime.now()
         );
     }
 }
