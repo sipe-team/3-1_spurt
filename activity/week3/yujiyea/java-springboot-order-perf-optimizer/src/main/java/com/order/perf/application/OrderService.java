@@ -10,6 +10,7 @@ import com.order.perf.domain.Refund;
 import com.order.perf.domain.repository.RefundRepository;
 import com.order.perf.application.dto.OrderDetailsResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class OrderService {
     private final DeliveryRepository deliveryRepository;
     private final RefundRepository refundRepository;
 
+    @Cacheable(value = "orders", key = "#orderId")
     public OrderDetailsResponse findOrderDetails(final Long orderId) throws ExecutionException, InterruptedException {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));

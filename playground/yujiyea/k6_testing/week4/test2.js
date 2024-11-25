@@ -5,9 +5,9 @@ export const options = {
     discardResponseBodies: true,
     stages: [
         {duration: '10s', target: 10},
-        {duration: '30s', target: 300},
-        {duration: '1m', target: 300},
-        {duration: '10s', target: 50}
+        {duration: '30s', target: 130},
+        {duration: '1m', target: 130},
+        {duration: '10s', target: 10}
     ]
 };
 

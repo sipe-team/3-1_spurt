@@ -5,6 +5,9 @@ spring:
     password: ''
     driver-class-name: org.h2.Driver
     defer-datasource-initialization: true
+    hikari:
+      minimum-idle: 41
+      maximum-pool-size: 200
   jpa:
     hibernate:
       ddl-auto: none
@@ -12,6 +15,7 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
   sql:
     init:
       mode: ALWAYS # 데이터베이스 초기화 시 data.sql을 항상 실행
