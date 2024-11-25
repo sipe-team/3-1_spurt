@@ -1,4 +1,25 @@
 spring:
+
+#  datasource:
+#    username: postgres
+#    url: jdbc:postgresql://db-service:5432/postgres?currentSchema=library
+#    password: postgres
+#    hikari:
+#      maximumPoolSize: ${POOL_SIZE}
+#      minimum-idle: ${POOL_SIZE}
+#      poolName: jdbc-pool
+#      idleTimeout: 1800000
+
+#  jpa:
+#    generate-ddl: false
+#    database: POSTGRESQL
+#    properties:
+#      hibernate:
+#        default_schema: library
+#      show-sql: true
+#      format_sql: true
+#    hibernate:
+#      ddl-auto: none
   datasource:
     url: 'jdbc:h2:mem:order-perf-optimizer'
     username: 'user'
@@ -15,9 +36,9 @@ spring:
   sql:
     init:
       mode: ALWAYS # 데이터베이스 초기화 시 data.sql을 항상 실행
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        web-allow-others: true
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
+#      settings:
+#        web-allow-others: true
