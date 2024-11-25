@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+/shop/src/generated/org/jooq/generated/
+/order/src/generated/org/jooq/generated/
+/delivery/src/generated/org/jooq/generated/

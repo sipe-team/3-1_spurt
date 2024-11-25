@@ -56,4 +56,32 @@ public class ShopEntity {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }
