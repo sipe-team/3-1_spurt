@@ -18,19 +18,16 @@ class OrderServiceV3(
 
     private val asyncPool = newFixedThreadPool(10)
 
-    /**
-     * 캐시 + CompletableFuture
-     */
+    @Cacheable(key = "#id", value = ["order"])
     override fun get(id: Long): OrderDetailDto {
-        applyCache(id)
+        getOrderDetail(id)
         return OrderDetailDto(id)
     }
 
-    @Cacheable("order")
-    fun applyCache(id: Long) {
+    fun getOrderDetail(id: Long) {
         val productDetail = supplyAsync(
-            { client.getProductDetails(id) },
-            asyncPool
+                { client.getProductDetails(id) },
+        asyncPool
         )
         val productBundleDetail = supplyAsync(
             { client.getProductBundleDetailDto(id) },
@@ -41,7 +38,5 @@ class OrderServiceV3(
             asyncPool
         )
         allOf(productDetail, productBundleDetail, somethingElse).join()
-
-        // someone else's code
     }
 }

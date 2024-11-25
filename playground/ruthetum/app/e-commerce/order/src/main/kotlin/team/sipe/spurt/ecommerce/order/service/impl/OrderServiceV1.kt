@@ -6,7 +6,7 @@ import team.sipe.spurt.ecommerce.order.client.OtherClient
 import team.sipe.spurt.ecommerce.order.dto.OrderDetailDto
 import team.sipe.spurt.ecommerce.order.service.OrderService
 
-@Profile("v1")
+@Profile("default")
 @Service
 class OrderServiceV1(
     private val client: OtherClient,
