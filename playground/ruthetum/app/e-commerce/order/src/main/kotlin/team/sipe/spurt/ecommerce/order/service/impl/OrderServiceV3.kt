@@ -26,8 +26,8 @@ class OrderServiceV3(
 
     fun getOrderDetail(id: Long) {
         val productDetail = supplyAsync(
-                { client.getProductDetails(id) },
-        asyncPool
+            { client.getProductDetails(id) },
+            asyncPool
         )
         val productBundleDetail = supplyAsync(
             { client.getProductBundleDetailDto(id) },
