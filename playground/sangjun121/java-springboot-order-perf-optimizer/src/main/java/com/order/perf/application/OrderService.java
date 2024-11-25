@@ -11,7 +11,6 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 @Service
-@Async
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -26,10 +25,10 @@ public class OrderService {
         this.refundRepository = refundRepository;
     }
 
+    @Async
     public OrderDetailsResponse findOrderDetails(final Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
-
 
         Delivery delivery = deliveryRepository.findById(order.getDeliveryId())
                 .orElseThrow(() -> new RuntimeException("Delivery not found"));
