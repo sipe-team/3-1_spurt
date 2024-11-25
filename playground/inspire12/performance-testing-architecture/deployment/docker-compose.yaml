@@ -1,0 +1,128 @@
+version: '3.5'
+
+networks:
+  default:
+    name: load-testing-network
+
+services:
+
+  prometheus:
+    image: "prom/prometheus"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../prometheus/prom.yaml:/etc/prometheus/prometheus.yml
+    container_name: prometheus
+
+  db-service:
+    container_name: db-service
+    build:
+      context: ../db
+    restart: always
+    env_file:
+      - ../db/.env
+    ports:
+      - "5000:5432"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 250M
+        reservations:
+          memory: 250M
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - spring-jdbc
+      - spring-r2dbc
+      - spring-order
+    ports:
+      - "4000:4000"
+    restart: always
+    deploy:
+      replicas: 1
+
+  influxdb:
+    container_name: influxdb-performance
+    image: influxdb:1.8.9
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+
+  grafana:
+    container_name: grafana-performance
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    volumes:
+      - ../grafana/dashboards:/var/lib/grafana/dashboards
+      - ../grafana/grafana-dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ../grafana/grafana-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+
+  spring-jdbc:
+     build:
+       context: ../spring-jdbc
+     depends_on:
+       - db-service
+     restart: always
+     environment:
+       - POOL_SIZE=20
+     ports:
+       - "8080:8080"
+     deploy:
+       replicas: 1
+       resources:
+         limits:
+           cpus: '3'
+           memory: 2G
+         reservations:
+           memory: 2G
+
+  spring-r2dbc:
+     build:
+       context: ../spring-r2dbc
+     depends_on:
+       - db-service
+     restart: always
+     environment:
+       - POOL_SIZE=20
+     ports:
+       - "8081:8080"
+     deploy:
+       replicas: 1
+       resources:
+         limits:
+           cpus: '3'
+           memory: 2G
+         reservations:
+           memory: 2G
+
+  spring-order:
+    build:
+      context: ../java-springboot-order-perf-optimizer
+    depends_on:
+      - db-service
+    restart: always
+    environment:
+      - POOL_SIZE=20
+    ports:
+      - "8082:8080"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '3'
+          memory: 2G
+        reservations:
+          memory: 2G
