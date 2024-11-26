@@ -6,11 +6,14 @@ const getTrend = new Trend('Get_Books');
 const getErrorRate = new Rate('Get_Books_error');
 
 export let options = {
-  stages: [
-      { duration: "10s", target: `${__ENV.USERS}` },
-      { duration: "100s", target: `${__ENV.USERS}` },
-      { duration: "10s", target: 0 }
-  ]
+    vus: 100,
+    iterations: 500,
+    maxDuration: '10s'
+    // stages: [
+      // { duration: "10s", target: `${__ENV.USERS}` }, // Ramp up to users
+      // { duration: "100s", target: `${__ENV.USERS}` },  // Spike to users
+      // { duration: "10s", target: 0 }  // Ramp down to 0 users
+  // ]
 };
 
 export default function () {
@@ -39,4 +42,6 @@ export default function () {
 
   getTrend.add(getResp.timings.duration);
 
+  // const responseSizeBytes = getResp.body.length; // 응답 바디 크기
+  // throughput.add(responseSizeBytes);
 }
