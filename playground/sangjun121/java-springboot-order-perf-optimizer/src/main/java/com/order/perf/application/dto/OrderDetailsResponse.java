@@ -23,7 +23,6 @@ public class OrderDetailsResponse {
     public OrderDetailsResponse(final List<OrderProduct> orderProducts,
                                 final Delivery delivery,
                                 final Refund refund) {
-        log.info("이때 조회");
         this.orderItems = orderProducts.stream()
                 .map(orderProduct -> OrderItemDto.from(orderProduct.getProduct(), delivery, refund))
                 .collect(Collectors.toList());

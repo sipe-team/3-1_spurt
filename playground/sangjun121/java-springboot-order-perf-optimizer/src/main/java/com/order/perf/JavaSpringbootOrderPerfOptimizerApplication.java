@@ -11,5 +11,4 @@ public class JavaSpringbootOrderPerfOptimizerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JavaSpringbootOrderPerfOptimizerApplication.class, args);
 	}
-
 }
