@@ -1,0 +1,21 @@
+Database Items retrieved:
+
+       6000 / 3000 / 1500
+Troughput:
+  Case 1: 500 users
+  - R2DBC: 4083 / 5373 / 10689
+  - JDBC:  3321 / 5447 / 22765
+  Case 2: 250 users
+
+  - R2DBC: 4385 / 7364 / 15152
+  - JDBC: 3520 / 6944 / 20255
+
+  Case 3: 100 users
+
+  - R2DBC: 4057 / 7636 / 15341
+  - JDBC: 3247 / 8835 / 22079
+
+  Case 4: 10 users
+
+  - R2DBC: 4541 / 8823 / 16111
+  - JDBC: 6841 / 12031 / 26349
