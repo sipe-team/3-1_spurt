@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  shutdown: graceful
+spring:
+  application:
+    name: product
+  profiles:
+    active: local
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/shop
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    defer-datasource-initialization: false

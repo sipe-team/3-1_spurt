@@ -1,0 +1,19 @@
+apiVersion: 1
+
+deleteDatasources:
+    - name: prometheus
+
+datasources:
+    - name: prometheus
+      type: prometheus
+      access: proxy
+      url: http://prometheus:9090
+      isDefault: true
+    - name: redis-datasource
+      type: redis-datasource
+      url: redis:6379
+      isDefault: false
+      access: proxy
+      editable: true
+      version: 1
+

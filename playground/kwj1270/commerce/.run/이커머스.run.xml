@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="이커머스" type="CompoundRunConfigurationType">
+    <toRun name="DeliveryApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="DisplayApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="OrderApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="ProductApplication" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

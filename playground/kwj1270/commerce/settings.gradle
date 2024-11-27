@@ -1,7 +1,8 @@
 rootProject.name = 'commerce'
 
 include(
-        "display",
+        "jooq-custom",
+        "common",
         "delivery",
         "order",
         "shop"

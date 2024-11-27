@@ -1,0 +1,4 @@
+dependencies {
+    implementation "org.jooq:jooq-codegen:3.19.5"
+    runtimeOnly 'com.mysql:mysql-connector-j:8.2.0'
+}

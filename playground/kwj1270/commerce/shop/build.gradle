@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.5'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'nu.studer.jooq' version '9.0'
 }
 
 group = 'team.sipe'
@@ -18,12 +19,93 @@ repositories {
 }
 
 dependencies {
+    project(':common')
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation('org.springframework.boot:spring-boot-starter-jooq') {
+        exclude group: 'org.jooq:jooq'
+    }
+    implementation "org.jooq:jooq:3.19.5"
+    jooqGenerator project(':jooq-custom')
+    jooqGenerator "org.jooq:jooq:3.19.5"
+    jooqGenerator "org.jooq:jooq-meta:3.19.5"
+    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", "src/generated"]
+        }
+    }
+}
+
+jooq {
+    version = "3.19.5"
+    configurations {
+        shopDb {
+            generationTool {
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://localhost:3306'
+                    user = "root"
+                    password = "1234"
+                }
+
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+
+                    database {
+                        name = 'org.jooq.meta.mysql.MySQLDatabase'
+                        unsignedTypes = true
+                        schemata {
+                            schema {
+                                inputSchema = 'shop'
+                            }
+                        }
+                        forcedTypes {
+                            forcedType {
+                                userType = 'java.lang.Long'
+                                includeTypes = 'int unsigned'
+                            }
+
+                            forcedType {
+                                userType = 'java.lang.Integer'
+                                includeTypes = 'tinyint unsigned'
+                            }
+
+                            forcedType {
+                                userType = 'java.lang.Integer'
+                                includeTypes = 'smallint unsigned'
+                            }
+                        }
+                    }
+
+                    generate {
+                        daos = true
+                        records = true
+                        fluentSetters = true
+                        javaTimeTypes = true
+                        deprecated = false
+                    }
+
+                    target {
+                        directory = 'src/generated'
+                    }
+
+
+                    // jooq-custom 내부의 설정
+                    strategy.name = 'team.sipe.jooqcustom.JPrefixGeneratorStrategy'
+                }
+            }
+        }
+    }
 }

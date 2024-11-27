@@ -1,0 +1,10 @@
+### 샵 생성
+POST http://localhost:8080/shops
+Content-Type: application/json
+
+{
+  "sellerId": 1,
+  "shopName": "simple",
+  "shopDescription": "간단한 샵",
+  "shopAddress": "경기도 광명시"
+}

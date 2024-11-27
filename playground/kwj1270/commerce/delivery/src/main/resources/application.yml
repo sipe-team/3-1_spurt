@@ -1,1 +1,21 @@
-spring.application.name=delivery
+server:
+  port: 8082
+  shutdown: graceful
+spring:
+  application:
+    name: delivery
+  profiles:
+    active: local
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/delivery
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    defer-datasource-initialization: false
