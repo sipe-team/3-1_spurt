@@ -8,7 +8,3 @@ Content-Type: application/json
   "shopDescription": "간단한 샵",
   "shopAddress": "경기도 광명시"
 }
-
-### 샵 조회
-GET http://localhost:8080/shops/1
-Content-Type: application/json

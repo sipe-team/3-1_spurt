@@ -1,12 +1,12 @@
-package team.sipe.commerce.shop.product.infrastructure;
+package team.sipe.commerce.shop.product.infrastructure.persistence;
 
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Table(name = "product_option")
+@Table(name = "product_options")
 @Entity
-public class ProductOption {
+public class ProductOptionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,20 +22,40 @@ public class ProductOption {
     @Column(name = "price", nullable = false)
     private Long price;
 
-    public ProductOption() {
+    public ProductOptionEntity() {
     }
 
-    public ProductOption(final Long id, final String name, final Long price) {
+    public ProductOptionEntity(final Long id, final String name, final Long price) {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public void setProductOptionGroup(final ProductOptionGroupEntity productOptionGroupEntity) {
+        this.productOptionGroup = productOptionGroupEntity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public ProductOptionGroupEntity getProductOptionGroup() {
+        return productOptionGroup;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getPrice() {
+        return price;
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final ProductOption that = (ProductOption) o;
+        final ProductOptionEntity that = (ProductOptionEntity) o;
         return Objects.equals(id, that.id);
     }
 

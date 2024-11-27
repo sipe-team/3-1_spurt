@@ -10,4 +10,16 @@ public class ProductOption {
         this.productOptionName = productOptionName;
         this.productPrice = productPrice;
     }
+
+    public Long getProductOptionId() {
+        return productOptionId;
+    }
+
+    public String getProductOptionName() {
+        return productOptionName;
+    }
+
+    public ProductPrice getProductPrice() {
+        return productPrice;
+    }
 }

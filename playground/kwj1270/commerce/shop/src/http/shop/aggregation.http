@@ -1,0 +1,7 @@
+### 샵 조회
+GET http://localhost:8080/shops/1
+Content-Type: application/json
+
+### 샵 상품 조회
+GET http://localhost:8080/shops/1/products
+Content-Type: application/json

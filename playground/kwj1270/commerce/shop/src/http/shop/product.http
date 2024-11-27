@@ -1,0 +1,20 @@
+### 상품 등록
+POST http://localhost:8080/shops/1/products
+Content-Type: application/json
+
+{
+  "shopId": 1,
+  "productName": "테스트 상품",
+  "productDescription": "테스트 상품 설명",
+  "productOptionGroupRequest": [
+    {
+      "productOptionGroupName": "기본",
+      "productOptionRequests": [
+        {
+          "productOptionName": "기본",
+          "productOptionPrice": 10000
+        }
+      ]
+    }
+  ]
+}

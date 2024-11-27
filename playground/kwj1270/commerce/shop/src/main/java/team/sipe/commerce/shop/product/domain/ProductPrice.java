@@ -7,4 +7,8 @@ public class ProductPrice {
     public ProductPrice(final Long price) {
         this.price = price;
     }
+
+    public Long getPrice() {
+        return price;
+    }
 }
