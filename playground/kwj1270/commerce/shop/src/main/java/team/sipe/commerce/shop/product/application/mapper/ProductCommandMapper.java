@@ -5,7 +5,7 @@ import team.sipe.commerce.shop.product.application.command.ProductRegisterComman
 import team.sipe.commerce.shop.product.domain.Product;
 import team.sipe.commerce.shop.product.domain.ProductOption;
 import team.sipe.commerce.shop.product.domain.ProductOptionGroup;
-import team.sipe.commerce.shop.product.domain.ProductPrice;
+import team.sipe.commerce.shop.product.domain.vo.ProductPrice;
 
 import java.time.LocalDateTime;
 import java.util.List;

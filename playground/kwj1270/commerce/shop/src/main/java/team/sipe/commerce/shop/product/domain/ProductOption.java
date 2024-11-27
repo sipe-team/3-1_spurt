@@ -1,5 +1,7 @@
 package team.sipe.commerce.shop.product.domain;
 
+import team.sipe.commerce.shop.product.domain.vo.ProductPrice;
+
 public class ProductOption {
     private final Long productOptionId;
     private final String productOptionName;

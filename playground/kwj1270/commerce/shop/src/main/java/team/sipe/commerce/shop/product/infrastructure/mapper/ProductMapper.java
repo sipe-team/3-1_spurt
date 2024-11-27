@@ -3,7 +3,7 @@ package team.sipe.commerce.shop.product.infrastructure.mapper;
 import team.sipe.commerce.shop.product.domain.Product;
 import team.sipe.commerce.shop.product.domain.ProductOption;
 import team.sipe.commerce.shop.product.domain.ProductOptionGroup;
-import team.sipe.commerce.shop.product.domain.ProductPrice;
+import team.sipe.commerce.shop.product.domain.vo.ProductPrice;
 import team.sipe.commerce.shop.product.infrastructure.persistence.ProductEntity;
 import team.sipe.commerce.shop.product.infrastructure.persistence.ProductOptionEntity;
 import team.sipe.commerce.shop.product.infrastructure.persistence.ProductOptionGroupEntity;

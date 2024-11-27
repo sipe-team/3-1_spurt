@@ -19,12 +19,4 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-
-    dependencies {
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
 }
