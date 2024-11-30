@@ -11,6 +11,8 @@ spring:
     username: root
     password: ${SPRING_DATASOURCE_PASSWORD}
     defer-datasource-initialization: true
+    hikari:
+      maximum-pool-size: 20  # 기존보다 큰 값으로 설정.
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect

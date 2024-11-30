@@ -48,7 +48,7 @@ public class OrderService {
         return new OrderDetailsResponse(orderProductsCompletableFuture.join(), deliveryCompletableFuture.join(), refundCompletableFuture.join());
     }
 
-    public OrderDetailsResponse findOrderDetails(final Long orderId) {
+    public OrderDetailsResponse findOrderDetailsBySync(final Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
