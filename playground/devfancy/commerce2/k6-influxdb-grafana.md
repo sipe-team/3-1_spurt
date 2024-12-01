@@ -69,33 +69,33 @@ networks:
 
 * 아래와 같이 Data source 부분 클릭
 
-![](/image/grafana_datasource.png)
+![](./image/grafana_datasource.png)
 
 
 * 이후 database를 `InfluxDB`로 선택한다.
 
-![](/image/grafana_influxdb.png)
+![](./image/grafana_influxdb.png)
 
 * 아래와 같이 url과 database를 설정한다. 두 컨테이너 모두 도커 위에서 돌아가고 있으므로, `http://localhost:8086`이 아니라 `http://influxdb:8086`으로 설정을 해줘야 한다.
   (만약 다른 컨테이너 이름이라면 해당 이름을 Name 부분에 입력한다)
 
-![](/image/grafana_influxdb_setting.png)
+![](./image/grafana_influxdb_setting.png)
 
 * “Save & test” 버튼을 누르면 아래와 같이 나온다.
 
-![](/image/grafana_influxdb_save_test.png)
+![](./image/grafana_influxdb_save_test.png)
 
 * 그리고 나서 Dashboards 를 import 한다.
 
-![](/image/grafana_dashboards_import.png)
+![](./image/grafana_dashboards_import.png)
 
 * InfluxDB 1.x: 대시보드 ID는 2587이므로 해당 부분을 입력하고 `Load` 버튼을 클릭한다.
 
-![](/image/grafana_dashboards_import_setting.png)
+![](./image/grafana_dashboards_import_setting.png)
 
 * 마지막으로 k6 부분에 influxdb를 선택하고 `Import` 버튼을 누른다.
 
-![](/image/grafana_dashboards_import_result.png)
+![](./image/grafana_dashboards_import_result.png)
 
 * 이제 k6의 결과를 influxdb로 export하면 시각화를 할 수 있다.
 
@@ -103,4 +103,4 @@ networks:
 
     * 명령어: k6 run --out influxdb=http://localhost:8087/myk6db order-load.js
 
-![](/image/grafana_k6_test_result.png)
+![](./image/grafana_k6_test_result.png)
