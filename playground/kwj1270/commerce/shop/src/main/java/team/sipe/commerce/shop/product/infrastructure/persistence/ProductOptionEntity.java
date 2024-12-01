@@ -2,6 +2,8 @@ package team.sipe.commerce.shop.product.infrastructure.persistence;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "product_options")
@@ -22,13 +24,21 @@ public class ProductOptionEntity {
     @Column(name = "price", nullable = false)
     private Long price;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     public ProductOptionEntity() {
     }
 
-    public ProductOptionEntity(final Long id, final String name, final Long price) {
+    public ProductOptionEntity(final Long id, final String name, final Long price, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public void setProductOptionGroup(final ProductOptionGroupEntity productOptionGroupEntity) {
@@ -49,6 +59,14 @@ public class ProductOptionEntity {
 
     public Long getPrice() {
         return price;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override

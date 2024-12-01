@@ -1,17 +1,18 @@
-package team.sipe.commerce.shop.product.domain;
+package team.sipe.commerce.shop.aggregation.dao.dto;
 
 import team.sipe.commerce.shop.product.domain.vo.ProductPrice;
 
 import java.time.LocalDateTime;
 
-public class ProductOption {
+public class ProductOptionInformation {
+
     private final Long productOptionId;
     private final String productOptionName;
-    private final ProductPrice productPrice;
+    private final long productPrice;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public ProductOption(final Long productOptionId, final String productOptionName, final ProductPrice productPrice, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+    public ProductOptionInformation(final Long productOptionId, final String productOptionName, final long productPrice, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.productOptionId = productOptionId;
         this.productOptionName = productOptionName;
         this.productPrice = productPrice;
@@ -27,7 +28,7 @@ public class ProductOption {
         return productOptionName;
     }
 
-    public ProductPrice getProductPrice() {
+    public long getProductPrice() {
         return productPrice;
     }
 
@@ -39,3 +40,4 @@ public class ProductOption {
         return updatedAt;
     }
 }
+

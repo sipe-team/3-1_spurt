@@ -43,7 +43,9 @@ public class ProductMapper {
                 .map(it -> new ProductOptionEntity(
                         it.getProductOptionId(),
                         it.getProductOptionName(),
-                        it.getProductPrice().getPrice()
+                        it.getProductPrice().getPrice(),
+                        it.getCreatedAt(),
+                        it.getUpdatedAt()
                 ))
                 .toList();
     }
@@ -77,7 +79,9 @@ public class ProductMapper {
                 .map(it -> new ProductOption(
                         it.getId(),
                         it.getName(),
-                        new ProductPrice(it.getPrice())
+                        new ProductPrice(it.getPrice()),
+                        it.getCreatedAt(),
+                        it.getUpdatedAt()
                 ))
                 .toList();
     }

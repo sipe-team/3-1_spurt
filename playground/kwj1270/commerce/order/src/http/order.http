@@ -1,0 +1,9 @@
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "shopId": 1,
+  "userId": 1,
+  "quantity": 10
+}

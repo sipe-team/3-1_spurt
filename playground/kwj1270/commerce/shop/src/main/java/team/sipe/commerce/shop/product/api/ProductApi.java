@@ -22,4 +22,5 @@ public class ProductApi {
         final Long productId = productRegisterUseCase.register(request.toCommand(shopId));
         return ResponseEntity.ok().body(new ProductRegisterHttpResponse(productId));
     }
+
 }
