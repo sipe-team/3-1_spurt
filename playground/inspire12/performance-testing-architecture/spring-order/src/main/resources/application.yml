@@ -1,5 +1,4 @@
-server:
-  port: 8079
+
 spring:
 
 #  datasource:
@@ -46,3 +45,19 @@ spring:
 #      path: /h2-console
 #      settings:
 #        web-allow-others: true
+server:
+  port: '8080'
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: spring-order
