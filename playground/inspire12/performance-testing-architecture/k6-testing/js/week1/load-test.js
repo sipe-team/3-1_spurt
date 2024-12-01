@@ -3,13 +3,13 @@ import { check, sleep } from 'k6';
 import { Trend, Rate } from 'k6/metrics';
 
 const getTrend = new Trend('Get_books');
-const getErrorRate = new Rate('Get_books error');
+const getErrorRate = new Rate('Get_books_error');
 
-const postTrend = new Trend('Add Book');
-const postErrorRate = new Rate('Add Book error');
+const postTrend = new Trend('Add_Book');
+const postErrorRate = new Rate('Add_Book_error');
 
-const orderTrend = new Trend('Add Order');
-const orderErrorRate = new Rate('Add Order error');
+const orderTrend = new Trend('Add_Order');
+const orderErrorRate = new Rate('Add_Order_error');
 
 export let options = {
   stages: [
@@ -41,13 +41,13 @@ export default function () {
         url: url +'books',
         params: params,
       },
-      'Add Book': {
+      'Add_Book': {
         method: 'POST',
         url: url+'books',
         params: params,
         body: addBookBody,
       },
-      'Add Order': {
+      'Add_Order': {
         method: 'POST',
         url: url + 'orders?bookIsbn=11111111&firstName=Gaetano',
         params: params,
@@ -57,8 +57,8 @@ export default function () {
 
   const responses = http.batch(requests);
   const getResp = responses['Get_books'];
-  const postResp = responses['Add Book'];
-  const addOrderResp = responses['Add Order'];
+  const postResp = responses['Add_Book'];
+  const addOrderResp = responses['Add_Order'];
 
   check(getResp, {
     'status is 200': (r) => r.status === 200,

@@ -15,16 +15,21 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping(path = "/async/{orderId}")
+    @GetMapping(path = "/{orderId}")
     public OrderDetailsResponse getOrderDetails(@PathVariable Long orderId) {
 
         return orderService.getOrderDetailsResponse(orderId);
     }
 
+    @GetMapping(path = "/async/{orderId}")
+    public OrderDetailsResponse getOrderDetailsAsync(@PathVariable Long orderId) {
+
+        return orderService.getOrderDetailsResponseByAsync(orderId);
+    }
+
     @GetMapping(path = "/join/{orderId}")
     public OrderDetailsResponse getOrderDetailsJoin(@PathVariable Long orderId) {
 
-        return orderService.getOrderByJoinDetailsResponse(orderId);
+        return orderService.getOrderDetailsResponseByJoin(orderId);
     }
-
 }

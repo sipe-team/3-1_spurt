@@ -34,6 +34,23 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
+        List<Product> products = productRepository.findByOrder(order);
+
+        Delivery delivery = deliveryRepository.findById(order.getDeliveryId())
+                .orElseThrow(() -> new RuntimeException("Delivery not found"));
+        Refund refund = refundRepository.findById(order.getRefundId())
+                .orElseThrow(() -> new RuntimeException("Refund not found"));
+
+        List<OrderItemDto> orderItemDto = products.stream()
+                .map(product -> OrderItemDto.from(product, delivery, refund))
+                .collect(Collectors.toList());
+        return new OrderDetailsResponse(orderItemDto);
+    }
+
+    public OrderDetailsResponse getOrderDetailsResponseByAsync(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
         CompletableFuture<List<Product>> productsCompleteFuture = CompletableFuture.supplyAsync(() -> productRepository.findByOrder(order));
 
         CompletableFuture<Delivery> deliveryCompleteFuture = CompletableFuture.supplyAsync(() -> deliveryRepository.findById(order.getDeliveryId())
@@ -41,7 +58,6 @@ public class OrderService {
         CompletableFuture<Refund> refundCompleteFuture = CompletableFuture.supplyAsync(() -> refundRepository.findById(order.getRefundId())
                 .orElseThrow(() -> new RuntimeException("Refund not found")));
 
-//        CompletableFuture.allOf(productsCompleteFuture, deliveryCompleteFuture, refundCompleteFuture).join();
         List<Product> products = productsCompleteFuture.join();
         Delivery delivery = deliveryCompleteFuture.join();
         Refund refund = refundCompleteFuture.join();
@@ -52,7 +68,7 @@ public class OrderService {
         return new OrderDetailsResponse(orderItemDto);
     }
 
-    public OrderDetailsResponse getOrderByJoinDetailsResponse(Long orderId) {
+    public OrderDetailsResponse getOrderDetailsResponseByJoin(Long orderId) {
         OrderJoin orderJoin = orderJoinRepository.findById(orderId)
             .orElseThrow(() -> new RuntimeException("Order not found"));
 

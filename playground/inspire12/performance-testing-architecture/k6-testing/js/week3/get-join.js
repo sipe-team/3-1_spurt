@@ -25,7 +25,7 @@ export default function () {
   const requests = {
       'Get_Orders_Join': {
         method: 'GET',
-        url: url +'api/orders/1',
+          url: url +'api/orders/join/1',
         params: params,
       }
     };

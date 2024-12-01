@@ -44,29 +44,18 @@ public class OrderJoin extends BaseEntity {
     @JoinColumn(name = "product_id")
     private Set<Product> products;
 
-
-//    @Column(name="delivery_id")
-//    private Long deliveryId;
-
     @OneToOne
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
-
-//    @Column(name="refund_id")
-//    private Long refundId;
 
     @OneToOne
     @JoinColumn(name = "refund_id")
     private Refund refund;
 
-//    @Column(name="payment_id")
-//    private Long paymentId;
     @OneToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-
     protected OrderJoin() {
     }
-
 }
