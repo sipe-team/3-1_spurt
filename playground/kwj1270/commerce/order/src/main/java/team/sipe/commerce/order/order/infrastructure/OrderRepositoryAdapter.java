@@ -20,9 +20,17 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     @Transactional
     @Override
-    public Order create(final Order order) {
+    public Order save(final Order order) {
         return Optional.ofNullable(orderJpaRepository.save(OrderEntityMapper.toEntity(order)))
                 .map(OrderEntityMapper::toDomain)
                 .orElseThrow(() -> new RuntimeException("Failed to create order"));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Order findById(final Long orderId) {
+        return orderJpaRepository.findById(orderId)
+                .map(OrderEntityMapper::toDomain)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
     }
 }

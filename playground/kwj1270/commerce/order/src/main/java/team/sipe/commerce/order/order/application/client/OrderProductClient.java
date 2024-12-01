@@ -1,4 +1,4 @@
-package team.sipe.commerce.order.order.application;
+package team.sipe.commerce.order.order.application.client;
 
 import team.sipe.commerce.order.order.domain.product.OrderProduct;
 

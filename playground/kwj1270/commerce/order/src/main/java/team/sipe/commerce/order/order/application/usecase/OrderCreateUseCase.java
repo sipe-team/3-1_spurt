@@ -1,4 +1,4 @@
-package team.sipe.commerce.order.order.application;
+package team.sipe.commerce.order.order.application.usecase;
 
 import team.sipe.commerce.order.order.application.command.OrderCreateCommand;
 

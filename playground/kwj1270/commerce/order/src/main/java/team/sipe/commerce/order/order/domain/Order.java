@@ -3,7 +3,6 @@ package team.sipe.commerce.order.order.domain;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Order {
 
@@ -72,6 +71,10 @@ public class Order {
 
     public LocalDateTime getOrderedAt() {
         return orderedAt;
+    }
+
+    public Order finished() {
+        return new Order(this.id, this.userId, this.shopId, this.orderLineItem, OrderStatus.PAYED, this.orderPaymentMethod, this.createdAt, LocalDateTime.now(), this.orderedAt);
     }
 
     @Override

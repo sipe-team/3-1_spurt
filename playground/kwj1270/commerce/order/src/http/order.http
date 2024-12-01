@@ -1,3 +1,4 @@
+### 주문 생성
 POST http://localhost:8081/orders
 Content-Type: application/json
 
@@ -6,4 +7,13 @@ Content-Type: application/json
   "shopId": 1,
   "userId": 1,
   "quantity": 10
+}
+
+### 주문 완료
+POST http://localhost:8081/orders/finished
+Content-Type: application/json
+
+{
+  "orderId": 1,
+  "userId": 1
 }

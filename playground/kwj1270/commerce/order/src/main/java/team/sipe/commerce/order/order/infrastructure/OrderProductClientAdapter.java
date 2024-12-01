@@ -1,7 +1,7 @@
 package team.sipe.commerce.order.order.infrastructure;
 
 import org.springframework.stereotype.Component;
-import team.sipe.commerce.order.order.application.OrderProductClient;
+import team.sipe.commerce.order.order.application.client.OrderProductClient;
 import team.sipe.commerce.order.order.domain.product.OrderProduct;
 import team.sipe.commerce.order.order.infrastructure.http.ProductRestClient;
 import team.sipe.common.dto.ProductHttpResponse;
