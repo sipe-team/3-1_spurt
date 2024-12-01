@@ -8,10 +8,16 @@ export const options = {
             executor: 'ramping-vus',
             startVUs: 0,
             stages: [
-                { duration: '60s', target: 1000 }, // 60초 동안 0 ~ 1000 목표 VU까지 선형적으로 증가시킴
-                { duration: '60s', target: 100 }, // 1000개의 VU에서 60초 동안 0의 VU까지 선형적으로 감소시킴
+                { duration: '60s', target: 500 },  // 1분 동안 0에서 500까지 증가
+                { duration: '120s', target: 1000 }, // 2분 동안 1000명 유지
+                { duration: '60s', target: 500 },  // 1분 동안 500으로 감소
+                { duration: '60s', target: 0 },    // 1분 동안 0으로 감소
             ],
-            gracefulRampDown: '0s', // 램프 다운 단계에서 일부 반복이 중단될 수 있음
+            gracefulRampDown: '30s', // 램프 다운 동안 VU들이 작업을 완료하도록 설정
+        },
+        thresholds: {
+            http_req_duration: ['p(95)<200'], // 95% 요청이 200ms 미만이어야 함
+            http_req_failed: ['rate<0.01'],   // 실패율이 1% 미만이어야 함
         },
     },
 };
