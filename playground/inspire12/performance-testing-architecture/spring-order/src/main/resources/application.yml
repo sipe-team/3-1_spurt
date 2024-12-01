@@ -21,12 +21,14 @@ spring:
 #    hibernate:
 #      ddl-auto: none
   datasource:
-    url: 'jdbc:h2:mem:order-perf-optimizer'
-    username: 'user'
-    password: ''
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://mysql:3306/ORDERS?serverTimezone=UTC&characterEncoding=UTF-8
+    username: 'root'
+    password: 'abcde12#'
+    driver-class-name: com.mysql.cj.jdbc.Driver
     defer-datasource-initialization: true
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
     properties:

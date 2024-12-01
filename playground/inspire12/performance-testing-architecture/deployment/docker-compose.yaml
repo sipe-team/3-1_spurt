@@ -31,7 +31,26 @@ services:
           memory: 250M
         reservations:
           memory: 250M
-
+  mysql:
+    image: mysql:8.0
+    #    restart: always
+    volumes:
+      - ../mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ../mysql/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=abcde12#
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=abcde12#
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 250M
+        reservations:
+          memory: 250M
   nginx:
     container_name: nginx
     image: nginx:latest
@@ -84,10 +103,10 @@ services:
        replicas: 1
        resources:
          limits:
-           cpus: '3'
-           memory: 2G
+           cpus: '1'
+           memory: 1G
          reservations:
-           memory: 2G
+           memory: 1G
 
   spring-r2dbc:
      build:
@@ -103,14 +122,14 @@ services:
        replicas: 1
        resources:
          limits:
-           cpus: '3'
-           memory: 2G
+           cpus: '1'
+           memory: 1G
          reservations:
-           memory: 2G
+           memory: 1G
 
   spring-order:
     build:
-      context: ../java-springboot-order-perf-optimizer
+      context: ../spring-order
     depends_on:
       - db-service
     restart: always

@@ -15,5 +15,5 @@ RUN ./gradlew build --exclude-task testClasses
 ##
 FROM adoptopenjdk/openjdk11:x86_64-alpine-jdk-11.0.5_10-slim
 EXPOSE 8080
-COPY --from=builder /src/build/libs/order-perf-optimizer*  /app/spring-boot.jar
+COPY --from=builder /src/build/libs/spring-order*  /app/spring-boot.jar
 ENTRYPOINT ["java","-Duser.timezone=GMT+1","-jar","/app/spring-boot.jar"]
