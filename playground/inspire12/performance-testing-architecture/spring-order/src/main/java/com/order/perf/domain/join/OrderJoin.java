@@ -20,10 +20,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
-@Table(name = "ORDERS")
+@Table(name = "orders")
 @Entity
 @AllArgsConstructor
 public class OrderJoin extends BaseEntity {
@@ -48,7 +49,7 @@ public class OrderJoin extends BaseEntity {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @OneToOne
+    @OneToOne(optional = true)
     @JoinColumn(name = "refund_id")
     private Refund refund;
 

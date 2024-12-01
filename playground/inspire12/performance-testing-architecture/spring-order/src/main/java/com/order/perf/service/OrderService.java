@@ -39,7 +39,7 @@ public class OrderService {
         Delivery delivery = deliveryRepository.findById(order.getDeliveryId())
                 .orElseThrow(() -> new RuntimeException("Delivery not found"));
         Refund refund = refundRepository.findById(order.getRefundId())
-                .orElseThrow(() -> new RuntimeException("Refund not found"));
+                .orElseGet(Refund::new);
 
         List<OrderItemDto> orderItemDto = products.stream()
                 .map(product -> OrderItemDto.from(product, delivery, refund))
@@ -56,7 +56,7 @@ public class OrderService {
         CompletableFuture<Delivery> deliveryCompleteFuture = CompletableFuture.supplyAsync(() -> deliveryRepository.findById(order.getDeliveryId())
                 .orElseThrow(() -> new RuntimeException("Delivery not found")));
         CompletableFuture<Refund> refundCompleteFuture = CompletableFuture.supplyAsync(() -> refundRepository.findById(order.getRefundId())
-                .orElseThrow(() -> new RuntimeException("Refund not found")));
+                .orElseGet(Refund::new));
 
         List<Product> products = productsCompleteFuture.join();
         Delivery delivery = deliveryCompleteFuture.join();
