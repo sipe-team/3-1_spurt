@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: 'jdbc:h2:mem:order_perf;MODE=MYSQL' # H2를 MySQL 모드로 설정
+    username: 'user'
+    password: ''
+    driver-class-name: org.h2.Driver
+    defer-datasource-initialization: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  sql:
+    init:
+      mode: ALWAYS # 데이터베이스 초기화 시 data.sql을 항상 실행
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
