@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Table(name = "order_options")
 @Entity
 public class OrderOptionEntity {
 
     @Column(name = "order_option_id")
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderOptionId;
 
     @ManyToOne

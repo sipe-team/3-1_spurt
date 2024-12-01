@@ -11,7 +11,7 @@ public class OrderOptionGroupEntity {
 
     @Column(name = "order_option_group_id")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderOptionGroupId;
 
     @ManyToOne
@@ -45,6 +45,9 @@ public class OrderOptionGroupEntity {
         this.updatedAt = updatedAt;
     }
 
+    public void setOrderLineItem(final OrderLineItemEntity orderLineItemEntity) {
+        this.orderLineItem = orderLineItemEntity;
+    }
 
     public Long getOrderOptionGroupId() {
         return orderOptionGroupId;
@@ -65,4 +68,5 @@ public class OrderOptionGroupEntity {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
 }

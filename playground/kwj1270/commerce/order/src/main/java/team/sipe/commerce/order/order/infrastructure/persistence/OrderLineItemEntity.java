@@ -44,7 +44,7 @@ public class OrderLineItemEntity {
                                final String orderLineName, final int orderLineQuantity,
                                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.orderLineItemId = orderLineItemId;
-        this.orderOptionGroups = orderOptionGroups;
+        this.orderOptionGroups = orderOptionGroups.stream().peek(it -> it.setOrderLineItem(this)).toList();
         this.productId = productId;
         this.orderLineName = orderLineName;
         this.orderLineQuantity = orderLineQuantity;
