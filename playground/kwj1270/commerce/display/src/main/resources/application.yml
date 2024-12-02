@@ -3,4 +3,12 @@ server:
 spring:
   application:
     name: display
-
+  data:
+    mongodb:
+      database: display
+      username: prefer
+      password: prefer
+      port: 27017
+      host: localhost
+      authentication-database: display
+      auto-index-creation: true
