@@ -1,0 +1,6 @@
+rootProject.name = 'java-springboot-order-perf-multi-module'
+include 'order'
+include 'shipment'
+include 'common'
+include 'catalog'
+
