@@ -2,7 +2,8 @@ rootProject.name = "spurt"
 
 include(
     "app",
-    "app:case1",
+    "app:e-commerce:order",
+    "app:e-commerce:other",
     "app:picker",
     "practice",
     "practice:benchmark",
@@ -22,6 +23,7 @@ pluginManagement {
                 "org.jetbrains.kotlin.jvm" -> useVersion(kotlinVersion)
                 "org.jetbrains.kotlin.plugin.spring" -> useVersion(kotlinVersion)
                 "org.jetbrains.kotlin.plugin.jpa" -> useVersion(kotlinVersion)
+                "org.jetbrains.kotlin.plugin.serialization" -> useVersion(kotlinVersion)
                 "org.springframework.boot" -> useVersion(springBootVersion)
                 "io.spring.dependency-management" -> useVersion(springDependencyManagementVersion)
                 "me.champeau.jmh" -> useVersion(jmhPluginVersion)

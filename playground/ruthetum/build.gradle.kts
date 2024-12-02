@@ -4,6 +4,7 @@ plugins {
 	kotlin("jvm")
 	kotlin("plugin.spring") apply false
 	kotlin("plugin.jpa") apply false
+	kotlin("plugin.serialization") apply false
 	id("org.springframework.boot") apply false
 	id("io.spring.dependency-management") apply false
 	id("me.champeau.jmh") apply false
@@ -30,12 +31,15 @@ subprojects {
 	apply(plugin = "org.jetbrains.kotlin.jvm")
 	apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 	apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
+	apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 	apply(plugin = "me.champeau.jmh")
 
 	dependencies {
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+		implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
+		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 		testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	}
