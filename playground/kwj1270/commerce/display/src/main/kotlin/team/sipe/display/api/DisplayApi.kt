@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.sipe.display.core.DisplayQueryService
+import team.sipe.display.core.dto.DisplayQueryInformation
 
 @RequestMapping("/display")
 @RestController
@@ -14,7 +15,7 @@ class DisplayApi(
 ) {
 
     @GetMapping("/orders/{orderId}")
-    fun orders(@PathVariable("orderId") orderId: Long): ResponseEntity<Any> {
+    fun orders(@PathVariable("orderId") orderId: Long): ResponseEntity<DisplayQueryInformation> {
         val response = displayQueryService.findById(orderId)
         return ResponseEntity.ok(response)
     }
