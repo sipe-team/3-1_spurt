@@ -1,7 +1,7 @@
 rootProject.name = "spurt"
 
 include(
-    "app",
+    "app:cache",
     "app:e-commerce:order",
     "app:e-commerce:other",
     "app:picker",

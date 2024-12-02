@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: false
+        highlight: true
+        cache:
+          use_second_level_cache: true
+          region.factory_class: org.hibernate.cache.jcache.internal.JCacheRegionFactory
+          javax.cache.uri: ehcache.xml
+          javax.cache.provider: org.ehcache.jsr107.EhcacheCachingProvider
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/temp
+    username: root
+    password: 12345678
+    hikari:
+      auto-commit: false
+      connection-test-query: SELECT 1
+      maximum-pool-size: 100
+      pool-name: spurt-cp
+
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
