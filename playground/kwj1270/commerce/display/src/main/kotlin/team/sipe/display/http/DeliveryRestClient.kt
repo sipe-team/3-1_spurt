@@ -11,7 +11,7 @@ class DeliveryRestClient {
         .build()
 
     fun findByOrderId(orderId: Long): DisplayDeliveryHttpResponse = restClient.get()
-        .uri("/delivery/orders/${orderId}")
+        .uri("/query/delivery/orders/${orderId}")
         .retrieve()
         .body(DisplayDeliveryHttpResponse::class.java)
         ?: throw RuntimeException("Delivery not found")

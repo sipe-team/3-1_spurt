@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.sipe.commerce.delivery.delivery.domain.DeliveryStatus;
 
-import java.util.Random;
-
-@RequestMapping("/delivery")
+@RequestMapping("/query")
 @RestController
 public class DeliveryApi {
 
-    @GetMapping("/orders/{orderId}")
-    public ResponseEntity<DeliveryInfoHttpResponse> deliveryInfo(@PathVariable("orderId") final long orderId) {
+    @GetMapping("/delivery/orders/{orderId}")
+    public ResponseEntity<DeliveryInfoHttpResponse> deliveryInfo(@PathVariable("orderId") final long orderId) throws InterruptedException {
         return ResponseEntity.ok(new DeliveryInfoHttpResponse(orderId));
     }
 
