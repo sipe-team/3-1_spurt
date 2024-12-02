@@ -1,6 +1,5 @@
 package team.sipe.commerce.shop.aggregation.api;
 
-import org.jooq.generated.tables.daos.ProductsDao;
 import org.jooq.generated.tables.pojos.Shops;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RequestMapping("/query")
 @RestController
 public class AggregationApi {
 

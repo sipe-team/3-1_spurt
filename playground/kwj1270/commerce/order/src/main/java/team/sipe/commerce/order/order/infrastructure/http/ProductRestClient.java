@@ -15,7 +15,7 @@ public class ProductRestClient {
 
     public ProductHttpResponse findByProductId(final long shopId, final long productId) {
         return restClient.get()
-                .uri("/shops/" + shopId + "/products/" + productId)
+                .uri("/query/shops/" + shopId + "/products/" + productId)
                 .retrieve()
                 .body(ProductHttpResponse.class);
     }

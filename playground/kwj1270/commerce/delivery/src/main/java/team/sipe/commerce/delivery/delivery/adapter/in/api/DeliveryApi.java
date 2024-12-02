@@ -1,4 +1,4 @@
-package team.sipe.commerce.delivery.delivery.api;
+package team.sipe.commerce.delivery.delivery.adapter.in.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,22 +7,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.sipe.commerce.delivery.delivery.domain.DeliveryStatus;
 
+import java.util.Random;
+
 @RequestMapping("/delivery")
 @RestController
-public class FakeDeliveryApi {
+public class DeliveryApi {
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<DeliveryInfoHttpResponse> deliveryInfo(@PathVariable final long orderId) {
+    @GetMapping("/orders/{orderId}")
+    public ResponseEntity<DeliveryInfoHttpResponse> deliveryInfo(@PathVariable("orderId") final long orderId) {
         return ResponseEntity.ok(new DeliveryInfoHttpResponse(orderId));
     }
 
     record DeliveryInfoHttpResponse(
             long deliveryId,
             long orderId,
-            DeliveryStatus status
+            DeliveryStatus deliveryStatus
     ) {
         public DeliveryInfoHttpResponse(long orderId) {
-            this(1, orderId, DeliveryStatus.DELIVERED);
+            this(1, orderId, DeliveryStatus.DELIVERING);
         }
     }
 }

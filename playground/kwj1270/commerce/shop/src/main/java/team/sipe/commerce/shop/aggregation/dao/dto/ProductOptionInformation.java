@@ -1,7 +1,5 @@
 package team.sipe.commerce.shop.aggregation.dao.dto;
 
-import team.sipe.commerce.shop.product.domain.vo.ProductPrice;
-
 import java.time.LocalDateTime;
 
 public class ProductOptionInformation {
