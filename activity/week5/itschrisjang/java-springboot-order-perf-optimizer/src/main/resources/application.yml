@@ -64,3 +64,23 @@ logging:
     reactor.netty: INFO
 #    root: DEBUG
 #    org.springframework.web: DEBUG
+
+################################################################################
+# Shard Info
+################################################################################
+shard:
+  default-database-url: r2dbc:postgresql://localhost:5432/shard_default
+  config:
+    - id: 0
+      url: r2dbc:postgresql://localhost:5432/shard1
+    - id: 1
+      url: r2dbc:postgresql://localhost:5432/shard2
+    - id: 2
+      url: r2dbc:postgresql://localhost:5432/shard3
+
+################################################################################
+# Aes256 key
+################################################################################
+aes256:
+  key: DBIFDi*319042-DJIKNDKADL39DKD)@m
+

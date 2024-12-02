@@ -26,11 +26,11 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final DeliveryRepository deliveryRepository;
     private final RefundRepository refundRepository;
-
     public OrderService(ReactiveRedisTemplate<String, Object> redisTemplate, final OrderRepository orderRepository,
                         final ProductRepository productRepository,
                         final DeliveryRepository deliveryRepository,
-                        final RefundRepository refundRepository) {
+                        final RefundRepository refundRepository
+    ) {
         this.redisTemplate = redisTemplate;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
@@ -39,7 +39,7 @@ public class OrderService {
     }
 
     public Mono<OrderDetailsResponse> findOrderDetailsWithCache(final Long orderId) {
-        String cacheKey = "orderDetails:" + orderId;
+        final String cacheKey = "orderDetails:" + orderId;
 
         return redisTemplate.opsForValue()
                 .get(cacheKey) // 1. Redis에서 데이터 조회

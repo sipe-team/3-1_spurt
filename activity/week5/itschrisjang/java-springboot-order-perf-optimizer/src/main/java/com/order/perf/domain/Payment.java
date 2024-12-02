@@ -15,7 +15,7 @@ public class Payment {
 
     @Id
     @Column("payment_id")
-    private Long id;
+    private String id;
 
     @Column("payment_method")
     private String paymentMethod; // 결제 수단
@@ -32,12 +32,15 @@ public class Payment {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    protected Payment() {
-    }
+    public Payment() {}
 
     public Payment(final String paymentMethod, final String paymentMethodName, final int paymentAmount) {
         this.paymentMethod = paymentMethod;
         this.paymentMethodName = paymentMethodName;
         this.paymentAmount = paymentAmount;
+    }
+
+    public void declareEncryptedShardRoutingId(String id) {
+        this.id = id;
     }
 }

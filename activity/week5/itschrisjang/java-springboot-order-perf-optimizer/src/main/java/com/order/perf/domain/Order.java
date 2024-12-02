@@ -24,7 +24,7 @@ public class Order {
     private Long refundId;
 
     @Column("payment_id")
-    private Long paymentId;
+    private String paymentId;
 
     @Column("order_number")
     private int orderNumber; // 주문 번호
@@ -38,12 +38,11 @@ public class Order {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    protected Order() {
-    }
+    protected Order() {}
 
     public Order(final Long deliveryId,
                  final Long refundId,
-                 final Long paymentId,
+                 final String paymentId,
                  int orderNumber, OrderStatus orderStatus) {
         this.deliveryId = deliveryId;
         this.refundId = refundId;
@@ -51,4 +50,5 @@ public class Order {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus.name(); // Enum의 이름을 문자열로 저장
     }
+
 }

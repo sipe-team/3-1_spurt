@@ -62,6 +62,8 @@ dependencies {
 	implementation 'com.h2database:h2'
 	implementation 'io.r2dbc:r2dbc-h2'
 
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
 	// mysql
 //	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
