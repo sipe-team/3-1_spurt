@@ -46,3 +46,10 @@ ehcache 버전 2, 3는 설정 하는 방식이 조금 다르다.
 
 ### 1. 프로시저로 데이터를 대량 삽입하기
 mysql DB를 기준으로 대량 데이터를 생성할 수 있는 프로시저 
+100개 데이터 생성 후
+1. ehcache receiving 2.5ms
+![img.png](image/img2.png)
+2. caffeine cache 3.26ms
+![img.png](img.png)
+
+마찬가지로 ehcache가 더 빠르다.

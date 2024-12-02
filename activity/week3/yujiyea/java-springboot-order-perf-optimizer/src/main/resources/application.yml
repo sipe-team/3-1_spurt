@@ -1,25 +1,27 @@
 spring:
   datasource:
-    url: 'jdbc:h2:mem:order_perf;MODE=MYSQL' # H2를 MySQL 모드로 설정
-    username: 'user'
-    password: ''
-    driver-class-name: org.h2.Driver
-    defer-datasource-initialization: true
+    url: jdbc:mysql://localhost:3306/ORDERS?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 41
       maximum-pool-size: 200
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
+#        dialect: org.hibernate.dialect.MySQL5Dialect
         format_sql: true
         show_sql: true
 
-  sql:
-    init:
-      mode: ALWAYS # 데이터베이스 초기화 시 data.sql을 항상 실행
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+#  sql:
+#    init:
+#      mode: ALWAYS # 데이터베이스 초기화 시 data.sql을 항상 실행
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
