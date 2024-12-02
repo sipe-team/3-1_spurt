@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: spurt-test
+  r2dbc:
+    url: 'r2dbc:h2:file:///~/order_perf?MODE=MYSQL&DB_CLOSE_DELAY=-1&DB_CLOSE_ON_EXIT=FALSE'
+    username: sa
+    password:
+#  datasource:
+#    url: 'jdbc:h2:mem:order_perf' # H2를 MySQL 모드로 설정
+#    username: 'user'
+#    password: ''
+#    driver-class-name: org.h2.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        show_sql: true
+  sql:
+    init:
+#      platform: h2
+      mode: always # 데이터베이스 초기화 시 data.sql을 항상 실행
+      schema-locations: classpath*:/schema.sql
+      data-locations: classpath*:/data.sql
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  cache:
+    type: redis
+  redis:
+    host: localhost  # Redis 서버 주소
+    port: 6379       # Redis 기본 포트
+#    password: # Redis 비밀번호 (필요 시)
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 100
+        min-idle: 20
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    enable:
+      all: true
+logging:
+  level:
+#    org.springframework.data.redis: DEBUG
+    org.springframework.data.redis.connection: DEBUG
+#    io.lettuce.core: DEBUG
+    reactor.netty: INFO
+#    root: DEBUG
+#    org.springframework.web: DEBUG
