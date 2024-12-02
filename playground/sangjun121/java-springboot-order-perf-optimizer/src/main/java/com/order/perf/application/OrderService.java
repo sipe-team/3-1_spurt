@@ -51,6 +51,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
+        log.info("findOrderDetailsBySync thread name: {}", Thread.currentThread().getName());
         Delivery delivery = deliveryRepository.findById(order.getDeliveryId())
                 .orElseThrow(() -> new RuntimeException("Delivery not found"));
 
