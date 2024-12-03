@@ -9,32 +9,19 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "product")
+@Table(name = "brand")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Product extends BaseEntity {
+public class Brand extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long brandId;
-
-    private Long categoryId;
-
     private String name;
 
-    private int price;
-
-    private String description;
-
-    public Product(final Long brandId, final Long categoryId, final String name, final int price,
-            final String description) {
-        this.brandId = brandId;
-        this.categoryId = categoryId;
+    public Brand(final String name) {
         this.name = name;
-        this.price = price;
-        this.description = description;
     }
 }
