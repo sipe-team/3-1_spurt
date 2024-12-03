@@ -93,3 +93,12 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=admin
       - MONGO_INITDB_ROOT_DATABASE=display
       - MONGO_INITDB_DATABASE=display
+  influxdb:
+    image: influxdb:1.8
+    container_name: influx
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin1234
