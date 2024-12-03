@@ -12,3 +12,20 @@ spring:
       host: localhost
       authentication-database: display
       auto-index-creation: true
+management:
+  server:
+    port: 12291
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /prefer
+      exposure:
+        exclude:
+        include: prometheus
+    jmx:
+      exposure:
+        exclude:
+        include: prometheus
