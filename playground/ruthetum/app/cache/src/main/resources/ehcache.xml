@@ -1,0 +1,22 @@
+<config
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jsr107='http://www.ehcache.org/v3/jsr107'>
+
+    <service>
+        <jsr107:defaults default-template="default">
+            <jsr107:cache name="products" template="productCache"/>
+        </jsr107:defaults>
+    </service>
+
+    <cache-template name="default">
+        <expiry>
+            <ttl unit="minutes">1</ttl>
+        </expiry>
+    </cache-template>
+
+    <cache-template name="productCache">
+        <key-type>java.lang.Long</key-type>
+        <value-type>team.sipe.spurt.cache.domain.ProductEntity</value-type>
+    </cache-template>
+
+</config>
