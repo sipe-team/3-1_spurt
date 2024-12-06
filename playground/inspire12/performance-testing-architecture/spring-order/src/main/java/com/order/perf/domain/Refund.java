@@ -33,7 +33,7 @@ public class Refund extends BaseEntity {
     @Column(name = "refund_status", nullable = false)
     private RefundStatus refundStatus; // 환불 상태
 
-    protected Refund() {
+    public Refund() {
     }
 
     public Refund(final RefundMethodName refundMethodName, final int refundAmount, final RefundStatus refundStatus) {
