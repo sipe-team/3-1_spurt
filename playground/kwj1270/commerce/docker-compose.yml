@@ -80,4 +80,25 @@ services:
       - prometheus
     environment:
       - GF_INSTALL_PLUGINS=redis-datasource, maormil-rabbitmq-datasource
-
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./infra/mongo/initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_ROOT_DATABASE=display
+      - MONGO_INITDB_DATABASE=display
+  influxdb:
+    image: influxdb:1.8
+    container_name: influx
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin1234

@@ -16,4 +16,10 @@ datasources:
       access: proxy
       editable: true
       version: 1
-
+    - name: performance-influxdb
+      type: influxdb
+      access: proxy
+      database: k6
+      user: admin
+      password: admin1234
+      url: http://influxdb:8086

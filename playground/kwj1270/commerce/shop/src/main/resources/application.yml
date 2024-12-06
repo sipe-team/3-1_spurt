@@ -19,3 +19,20 @@ spring:
     open-in-view: false
     generate-ddl: false
     defer-datasource-initialization: false
+management:
+  server:
+    port: 1${server.port}
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /prefer
+      exposure:
+        exclude:
+        include: prometheus
+    jmx:
+      exposure:
+        exclude:
+        include: prometheus

@@ -2,21 +2,23 @@ package team.sipe.commerce.shop.aggregation.api;
 
 import org.jooq.generated.tables.pojos.Shops;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.sipe.commerce.shop.aggregation.api.dto.ProductInfoHttpResponse;
 import team.sipe.commerce.shop.aggregation.api.dto.ShopInfoHttpResponse;
 import team.sipe.commerce.shop.aggregation.api.dto.ShopInformationResponse;
 import team.sipe.commerce.shop.aggregation.api.dto.ShopProductInformationHttpResponse;
 import team.sipe.commerce.shop.aggregation.dao.ShopProductQueryDao;
+import team.sipe.commerce.shop.aggregation.dao.dto.ProductInformation;
 import team.sipe.commerce.shop.aggregation.dao.dto.ShopProductInformation;
+import team.sipe.common.dto.ProductHttpResponse;
+import team.sipe.common.dto.ProductOptionGroupHttpResponse;
+import team.sipe.common.dto.ProductOptionHttpResponse;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RequestMapping("/query")
 @RestController
 public class AggregationApi {
 
@@ -51,6 +53,39 @@ public class AggregationApi {
             ));
         }
         return ResponseEntity.ok().body(new ShopProductInformationHttpResponse(null, null));
+    }
+
+    @GetMapping("/shops/{shopId}/products/{productId}")
+    public ResponseEntity<ProductHttpResponse> product(@PathVariable("shopId") final Long shopId,
+                                                       @PathVariable("productId") final Long productId
+    ) {
+        final ProductInformation productDomainInformation = shopProductQueryDao.findByShopIdAndProductId(shopId, productId);
+        final ProductHttpResponse productHttpResponse = new ProductHttpResponse(
+                productDomainInformation.getId(),
+                productDomainInformation.getShopId(),
+                productDomainInformation.getProductName(),
+                productDomainInformation.getProductDescription(),
+                productDomainInformation.getProductOptionGroups().stream()
+                        .map(productOptionGroupInformation -> new ProductOptionGroupHttpResponse(
+                                productOptionGroupInformation.getProductOptionGroupId(),
+                                productOptionGroupInformation.getProductOptionGroupName(),
+                                productOptionGroupInformation.getProductOptions().stream()
+                                        .map(productOptionInformation -> new ProductOptionHttpResponse(
+                                                productOptionInformation.getProductOptionId(),
+                                                productOptionInformation.getProductOptionName(),
+                                                productOptionInformation.getProductPrice(),
+                                                productOptionInformation.getCreatedAt(),
+                                                productOptionInformation.getUpdatedAt()
+                                        ))
+                                        .toList(),
+                                productOptionGroupInformation.getCreatedAt(),
+                                productOptionGroupInformation.getUpdatedAt()
+                        ))
+                        .toList(),
+                productDomainInformation.getCreatedAt(),
+                productDomainInformation.getUpdatedAt()
+        );
+        return ResponseEntity.ok().body(productHttpResponse);
     }
 
     private List<ProductInfoHttpResponse> getProductInfo(final List<ShopProductInformation> shopProductInformationList) {

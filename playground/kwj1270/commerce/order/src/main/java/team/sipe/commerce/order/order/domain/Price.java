@@ -20,4 +20,8 @@ public class Price {
     public Price plus(final Price other) {
         return new Price(this.price + other.price);
     }
+
+    public long getPrice() {
+        return price;
+    }
 }

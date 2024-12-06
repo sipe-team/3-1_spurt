@@ -1,0 +1,2 @@
+### 주문 상태 조회
+GET http://localhost:12290/display/orders/1
