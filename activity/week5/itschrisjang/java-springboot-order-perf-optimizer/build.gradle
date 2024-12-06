@@ -1,0 +1,76 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.order.perf'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+
+//	 spring boot
+//	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// Spring WebFlux 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.90.Final:osx-aarch_64'
+
+	// Spring Data R2DBC 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-core'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	// Spring Boot Starter Data Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
+	implementation 'org.apache.commons:commons-pool2:2.11.1'
+	implementation 'io.lettuce:lettuce-core:6.1.8.RELEASE' // 버전 추가
+
+	// Optional: Spring Boot Starter Validation (Redis 캐시에서 validation 적용 시 사용)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// h2
+	implementation 'com.h2database:h2'
+	implementation 'io.r2dbc:r2dbc-h2'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// mysql
+//	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+def void exclude(LinkedHashMap<String, String> stringStringLinkedHashMap) {}
