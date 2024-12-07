@@ -32,6 +32,9 @@ dependencies {
 	// prometheus micrometer
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 
+//	//influxDB micrometer
+//	implementation 'io.micrometer:micrometer-registry-influx'
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

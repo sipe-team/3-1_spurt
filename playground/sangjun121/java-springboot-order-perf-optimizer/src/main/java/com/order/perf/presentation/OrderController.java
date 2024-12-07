@@ -17,9 +17,15 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping(path = "/api/orders/{id}")
-    public ResponseEntity<OrderDetailsResponse> findByOrderDetail(@PathVariable final Long id) {
-        OrderDetailsResponse response = orderService.findOrderDetails(id);
+    @GetMapping(path = "/api/orders/sync/{id}")
+    public ResponseEntity<OrderDetailsResponse> findOrderDetailBySync(@PathVariable final Long id) {
+        OrderDetailsResponse response = orderService.findOrderDetailsBySync(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/api/orders/async/{id}")
+    public ResponseEntity<OrderDetailsResponse> findOrderDetailByAsync(@PathVariable final Long id) {
+        OrderDetailsResponse response = orderService.findOrderDetailsByAsync(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
