@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  influxdb:
+    image: bitnami/influxdb:1.8.5
+    container_name: influxdb
+    ports:
+      - "8087:8086"
+      - "8088:8088"
+    environment:
+      - INFLUXDB_ADMIN_USER_PASSWORD=devfancy
+      - INFLUXDB_ADMIN_USER_TOKEN=devfancyToken
+      - INFLUXDB_HTTP_AUTH_ENABLED=false
+      - INFLUXDB_DB=myk6db
+    networks:
+      - my_network
+
+  grafana:
+    image: bitnami/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - my_network
+
+networks:
+  my_network:
