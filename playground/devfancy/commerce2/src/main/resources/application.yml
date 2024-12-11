@@ -1,0 +1,43 @@
+server:
+  tomcat:
+    threads:
+      max: 200
+
+spring:
+  datasource:
+    url: 'jdbc:h2:mem:order_perf;MODE=MYSQL' # H2를 MySQL 모드로 설정
+    username: 'user'
+    password: ''
+    driver-class-name: org.h2.Driver
+    defer-datasource-initialization: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  sql:
+    init:
+      mode: ALWAYS # 데이터베이스 초기화 시 data.sql을 항상 실행
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  hikari:
+    minimum-idle: 50 # 연결 풀에서 유지할 최소 유휴(Idle) 연결 수
+    maximum-pool-size: 200 # 연결 풀에서 동시에 사용할 수 있는 최대 연결 수를 설정
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017 # 기본 MongoDB 포트
+      database: order_perf_mongodb
+      username: admin
+      password: password
+      authentication-database: admin
+      uri: mongodb://admin:password@localhost:27017/order_perf_mongodb?authSource=admin&authMechanism=SCRAM-SHA-256
