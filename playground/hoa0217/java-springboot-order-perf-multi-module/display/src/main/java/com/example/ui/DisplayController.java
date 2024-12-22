@@ -27,4 +27,9 @@ public class DisplayController {
     public ResponseEntity<ProductsResponse> displayRemoteCache() {
         return ResponseEntity.ok(displayManager.findAllProductRemoteCache());
     }
+
+    @GetMapping("/api/v1/display/cache/hybrid")
+    public ResponseEntity<ProductsResponse> displayHybridCache() {
+        return ResponseEntity.ok(displayManager.findAllProductHybridCache());
+    }
 }
