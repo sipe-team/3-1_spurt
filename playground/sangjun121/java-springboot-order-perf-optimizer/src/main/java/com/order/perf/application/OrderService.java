@@ -1,10 +1,10 @@
 package com.order.perf.application;
 
+import com.order.perf.common.async.AsyncRepositoryService;
 import com.order.perf.domain.*;
 import com.order.perf.domain.repository.*;
 import com.order.perf.application.dto.OrderDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +18,16 @@ import static java.lang.Thread.sleep;
 @Service
 public class OrderService {
 
+    private final AsyncRepositoryService asyncRepositoryService;
     private final OrderRepository orderRepository;
     private final DeliveryRepository deliveryRepository;
     private final RefundRepository refundRepository;
 
-    public OrderService(final OrderRepository orderRepository,
+    public OrderService(final AsyncRepositoryService asyncRepositoryService,
+                        final OrderRepository orderRepository,
                         final DeliveryRepository deliveryRepository,
                         final RefundRepository refundRepository) {
+        this.asyncRepositoryService = asyncRepositoryService;
         this.orderRepository = orderRepository;
         this.deliveryRepository = deliveryRepository;
         this.refundRepository = refundRepository;
@@ -34,24 +37,21 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        CompletableFuture<Delivery> deliveryCompletableFuture = CompletableFuture.supplyAsync(() -> deliveryRepository.findById(order.getDeliveryId())
-                .orElseThrow(() -> new RuntimeException("Delivery not found")));
+        CompletableFuture<Delivery> deliveryFuture = asyncRepositoryService.findDeliveryByIdAsync(order.getDeliveryId());
+        CompletableFuture<Refund> refundFuture = asyncRepositoryService.findRefundByIdAsync(order.getRefundId());
+        CompletableFuture<List<OrderProduct>> orderProductsFuture = asyncRepositoryService.findOrderProductsAsync(order);
 
-        CompletableFuture<Refund> refundCompletableFuture = CompletableFuture.supplyAsync(() -> refundRepository.findById(order.getRefundId())
-                .orElseThrow(() -> new RuntimeException("Refund not found")));
+        // 모든 작업 완료 대기
+        CompletableFuture.allOf(deliveryFuture, refundFuture, orderProductsFuture).join();
 
-        CompletableFuture<List<OrderProduct>> orderProductsCompletableFuture
-                = CompletableFuture.supplyAsync(() -> order.getOrderProducts());
-
-        CompletableFuture.allOf(orderProductsCompletableFuture, deliveryCompletableFuture, refundCompletableFuture).join();
-
-        return new OrderDetailsResponse(orderProductsCompletableFuture.join(), deliveryCompletableFuture.join(), refundCompletableFuture.join());
+        return new OrderDetailsResponse(orderProductsFuture.join(), deliveryFuture.join(), refundFuture.join());
     }
 
-    public OrderDetailsResponse findOrderDetails(final Long orderId) {
+    public OrderDetailsResponse findOrderDetailsBySync(final Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
+        log.info("findOrderDetailsBySync thread name: {}", Thread.currentThread().getName());
         Delivery delivery = deliveryRepository.findById(order.getDeliveryId())
                 .orElseThrow(() -> new RuntimeException("Delivery not found"));
 
