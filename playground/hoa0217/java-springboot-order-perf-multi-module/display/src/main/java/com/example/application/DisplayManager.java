@@ -2,9 +2,9 @@ package com.example.application;
 
 import com.example.application.dto.ProductResponse;
 import com.example.application.dto.ProductsResponse;
-import com.example.config.CustomCacheManager;
-import com.example.config.LocalCacheManager;
-import com.example.config.RemoteCacheManager;
+import com.example.common.CustomCacheManager;
+import com.example.common.LocalCacheManager;
+import com.example.common.RemoteCacheManager;
 import com.example.domain.Brand;
 import com.example.domain.BrandRepository;
 import com.example.domain.Category;

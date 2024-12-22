@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.common;
 
 public interface CustomCacheManager {
 

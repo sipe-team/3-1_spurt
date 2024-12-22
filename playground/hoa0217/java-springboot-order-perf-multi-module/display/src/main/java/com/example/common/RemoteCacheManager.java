@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.common;
 
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;

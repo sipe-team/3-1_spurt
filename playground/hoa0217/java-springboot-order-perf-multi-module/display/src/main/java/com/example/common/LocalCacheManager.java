@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.common;
 
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
