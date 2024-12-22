@@ -2,6 +2,9 @@ spring:
   cache:
     jcache:
       config: classpath:ehcache.xml
+  redis:
+    host: localhost
+    port: 6379
 
 server:
   port: 8083

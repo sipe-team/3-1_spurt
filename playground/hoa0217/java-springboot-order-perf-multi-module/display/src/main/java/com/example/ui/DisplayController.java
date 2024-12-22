@@ -18,8 +18,13 @@ public class DisplayController {
         return ResponseEntity.ok(displayManager.findAllProduct());
     }
 
-    @GetMapping("/api/v1/display/cache")
-    public ResponseEntity<ProductsResponse> displayCache() {
-        return ResponseEntity.ok(displayManager.findAllProductCache());
+    @GetMapping("/api/v1/display/cache/local")
+    public ResponseEntity<ProductsResponse> displayLocalCache() {
+        return ResponseEntity.ok(displayManager.findAllProductLocalCache());
+    }
+
+    @GetMapping("/api/v1/display/cache/remote")
+    public ResponseEntity<ProductsResponse> displayRemoteCache() {
+        return ResponseEntity.ok(displayManager.findAllProductRemoteCache());
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,30 +23,28 @@ public class DisplayManager {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public ProductsResponse findAllProduct() {
-        final List<Product> products = productRepository.findAll();
-        log.info("find success: " + products.size());
-        final List<ProductResponse> responses = products.stream()
-                .map(product -> {
-                    final Brand brand = brandRepository.findById(product.brandId());
-                    final Category category = categoryRepository.findById(product.categoryId());
-                    return new ProductResponse(
-                            product.id(),
-                            brand.id(),
-                            brand.name(),
-                            category.id(),
-                            category.name(),
-                            product.name(),
-                            product.price(),
-                            product.description()
-                    );
-                }).toList();
-        return new ProductsResponse(responses);
+        return getProductsResponse();
     }
 
     @Cacheable(value = "displayCache")
-    public ProductsResponse findAllProductCache() {
+    public ProductsResponse findAllProductLocalCache() {
+        return getProductsResponse();
+    }
+
+    public ProductsResponse findAllProductRemoteCache() {
+        final ProductsResponse products = (ProductsResponse) redisTemplate.opsForValue().get("products");
+        if (products != null) {
+            return products;
+        }
+        final ProductsResponse productsResponse = getProductsResponse();
+        redisTemplate.opsForValue().set("products", productsResponse);
+        return productsResponse;
+    }
+
+    private ProductsResponse getProductsResponse() {
         final List<Product> products = productRepository.findAll();
         log.info("find success: " + products.size());
         final List<ProductResponse> responses = products.stream()
